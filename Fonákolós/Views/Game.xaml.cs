@@ -24,7 +24,6 @@ namespace Fonákolós.Views
         public Game()
         {
             InitializeComponent();
-
             NewGame();
         }
 
@@ -52,13 +51,19 @@ namespace Fonákolós.Views
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var button = (Button)sender;
-            var validSquares = CalculateValidSquares(_lightPlayerTurn);
+            var validSquares = CalculateValidSquares();
             int column = Grid.GetColumn(button);
             int row = Grid.GetRow(button);
 
             if (validSquares.Any(t => t.Item1 == row && t.Item2 == column))
             {
                 ChangeSquare(row, column, _lightPlayerTurn);
+
+                var surroundedSquares = CalculateSurroundedSquares(row, column);
+                foreach (var t in surroundedSquares)
+                {
+                    ChangeSquare(t.Item1, t.Item2, _lightPlayerTurn);
+                }
 
                 _lightPlayerTurn ^= true;
             }
@@ -78,12 +83,12 @@ namespace Fonákolós.Views
             }
         }
 
-        private HashSet<Tuple<int, int>> CalculateValidSquares(bool lightPlayerTurn)
+        private HashSet<Tuple<int, int>> CalculateValidSquares()
         {
             HashSet<Tuple<int, int>> res = new HashSet<Tuple<int, int>>();
 
-            var color = lightPlayerTurn ? Square.WHITE : Square.BLACK;
-            var oppositeColor = lightPlayerTurn ? Square.BLACK : Square.WHITE;
+            var color = _lightPlayerTurn ? Square.WHITE : Square.BLACK;
+            var oppositeColor = _lightPlayerTurn ? Square.BLACK : Square.WHITE;
 
             for (int r = 0; r < 8; r++)
             {
@@ -137,7 +142,9 @@ namespace Fonákolós.Views
                             for (int i = 1; i < (r+1); i++)
                             {
                                 if (_board[r-i, c] == Square.EMPTY)
+                                {
                                     break;
+                                }
                                 else if (_board[r-i, c] == color)
                                 {
                                     res.Add(new Tuple<int, int>(r, c));
@@ -162,7 +169,6 @@ namespace Fonákolós.Views
                                 {
                                     res.Add(new Tuple<int, int>(r, c));
                                     break;
-
                                 }
                             }
                         }
@@ -183,7 +189,6 @@ namespace Fonákolós.Views
                                 {
                                     res.Add(new Tuple<int, int>(r, c));
                                     break;
-
                                 }
                             }
                         }
@@ -204,7 +209,6 @@ namespace Fonákolós.Views
                                 {
                                     res.Add(new Tuple<int, int>(r, c));
                                     break;
-
                                 }
                             }
                         }
@@ -225,7 +229,6 @@ namespace Fonákolós.Views
                                 {
                                     res.Add(new Tuple<int, int>(r, c));
                                     break;
-
                                 }
                             }
                         }
@@ -246,11 +249,182 @@ namespace Fonákolós.Views
                                 {
                                     res.Add(new Tuple<int, int>(r, c));
                                     break;
-
                                 }
                             }
                         }
                     }
+                }
+            }
+            return res;
+        }
+
+        private HashSet<Tuple<int, int>> CalculateSurroundedSquares(int row, int column)
+        {
+            HashSet<Tuple<int, int>> res = new HashSet<Tuple<int, int>>();
+            HashSet<Tuple<int, int>> temp = new HashSet<Tuple<int, int>>();
+
+            var color = _lightPlayerTurn ? Square.WHITE : Square.BLACK;
+            var oppositeColor = _lightPlayerTurn ? Square.BLACK : Square.WHITE;
+
+            //jobbra
+
+            for (int i = 1; i < 7-column; i++)
+            {
+                if (_board[row, column+i] == oppositeColor)
+                {
+                    temp.Add(new Tuple<int, int>(row, column+i));
+                }
+                else if (_board[row, column+i] == color)
+                {
+                    res.UnionWith(temp);
+                    temp.Clear();
+                    break;
+                }
+                else
+                {
+                    temp.Clear();
+                    break;
+                }
+            }
+
+            //balra
+            for (int i = 1; i < (column+1); i++)
+            {
+                if (_board[row, column-i] == oppositeColor)
+                {
+                    temp.Add(new Tuple<int, int>(row, column-i));
+                }
+                else if (_board[row, column-i] == color)
+                {
+                    res.UnionWith(temp);
+                    temp.Clear();
+                    break;
+                }
+                else
+                {
+                    temp.Clear();
+                    break;
+                }
+            }
+
+
+            //fel
+            for (int i = 1; i < (row+1); i++)
+            {
+                if (_board[row-i, column] == oppositeColor)
+                {
+                    temp.Add(new Tuple<int, int>(row-i, column));
+                }
+                else if (_board[row-i, column] == color)
+                {
+                    res.UnionWith(temp);
+                    temp.Clear();
+                    break;
+                }
+                else
+                {
+                    temp.Clear();
+                    break;
+                }
+            }
+
+            //le
+            for (int i = 1; i < (7-row); i++)
+            {
+                if (_board[row+i, column] == oppositeColor)
+                {
+                    temp.Add(new Tuple<int, int>(row+i, column));
+                }
+                else if (_board[row+i, column] == color)
+                {
+                    res.UnionWith(temp);
+                    temp.Clear();
+                    break;
+                }
+                else
+                {
+                    temp.Clear();
+                    break;
+                }
+            }
+
+            //felső jobb átló felé
+            for (int i = 1; i < Math.Min(row+1, 7-column); i++)
+            {
+                if (_board[row-i, column+i] == oppositeColor)
+                {
+                    temp.Add(new Tuple<int, int>(row-i, column+i));
+                }
+                else if (_board[row-i, column+i] == color)
+                {
+                    res.UnionWith(temp);
+                    temp.Clear();
+                    break;
+                }
+                else
+                {
+                    temp.Clear();
+                    break;
+                }
+            }
+
+            //felső bal átló felé
+            for (int i = 1; i < Math.Min(row+1, column+1); i++)
+            {
+                if (_board[row-i, column-i] == oppositeColor)
+                {
+                    temp.Add(new Tuple<int, int>(row-i, column-i));
+                }
+                else if (_board[row-i, column-i] == color)
+                {
+                    res.UnionWith(temp);
+                    temp.Clear();
+                    break;
+                }
+                else
+                {
+                    temp.Clear();
+                    break;
+                }
+            }
+
+            //lefelé bal átló felé
+            for (int i = 1; i < Math.Min(7-row, column+1); i++)
+            {
+                if (_board[row+i, column-i] == oppositeColor)
+                {
+                    temp.Add(new Tuple<int, int>(row+i, column-i));
+                }
+                else if (_board[row+i, column-i] == color)
+                {
+                    res.UnionWith(temp);
+                    temp.Clear();
+                    break;
+                }
+                else
+                {
+                    temp.Clear();
+                    break;
+                }
+            }
+
+            //lefelé jobb átló felé
+            for (int i = 1; i < Math.Min(7-row, 7-column); i++)
+            {
+                if (_board[row+i, column+i] == oppositeColor)
+                {
+                    temp.Add(new Tuple<int, int>(row+i, column+i));
+                }
+                else if (_board[row+i, column+i] == color)
+                {
+                    res.UnionWith(temp);
+                    temp.Clear();
+                    break;
+                }
+                else
+                {
+                    temp.Clear();
+                    break;
                 }
             }
             return res;
