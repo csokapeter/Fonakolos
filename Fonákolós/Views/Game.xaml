@@ -4,23 +4,115 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="900" d:DesignWidth="900">
+             d:DesignHeight="1000" d:DesignWidth="800">
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="2*" />
-            <RowDefinition Height="10*" />
+            <RowDefinition Height="8*" />
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Orientation="Horizontal">
+        <StackPanel Background="Beige" Grid.Row="0" Orientation="Horizontal">
             <Label Content="Fehér: " FontSize="40" />
             <Label Content="0" FontSize="40" />
             <Label Content="Fekete : " FontSize="40" Margin="40,0,0,0" />
             <Label Content="0" FontSize="40" />
-            <Label Content="Eltelt idő: " FontSize="40" Margin="200,0,0,0" />
+            <Label Content="Eltelt idő: " FontSize="40" Margin="100,0,0,0" />
             <Label Content="0" FontSize="40" />
         </StackPanel>
-        <UniformGrid Grid.Row="1" Rows="8" Columns="8" Margin="10">
-            
-        </UniformGrid>
+        <Grid x:Name="Container" Grid.Row="1" Margin="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Button Command="{Binding Click}" Grid.Column="0" Grid.Row="0" />
+            <Button Command="{Binding Click}" Grid.Column="1" Grid.Row="0" />
+            <Button Command="{Binding Click}" Grid.Column="2" Grid.Row="0" />
+            <Button Command="{Binding Click}" Grid.Column="3" Grid.Row="0" />
+            <Button Command="{Binding Click}" Grid.Column="4" Grid.Row="0" />
+            <Button Command="{Binding Click}" Grid.Column="5" Grid.Row="0" />
+            <Button Command="{Binding Click}" Grid.Column="6" Grid.Row="0" />
+            <Button Command="{Binding Click}" Grid.Column="7" Grid.Row="0" />
+
+            <Button Command="{Binding Click}" Grid.Column="0" Grid.Row="1" />
+            <Button Command="{Binding Click}" Grid.Column="1" Grid.Row="1" />
+            <Button Command="{Binding Click}" Grid.Column="2" Grid.Row="1" />
+            <Button Command="{Binding Click}" Grid.Column="3" Grid.Row="1" />
+            <Button Command="{Binding Click}" Grid.Column="4" Grid.Row="1" />
+            <Button Command="{Binding Click}" Grid.Column="5" Grid.Row="1" />
+            <Button Command="{Binding Click}" Grid.Column="6" Grid.Row="1" />
+            <Button Command="{Binding Click}" Grid.Column="7" Grid.Row="1" />
+
+            <Button Command="{Binding Click}" Grid.Column="0" Grid.Row="2" />
+            <Button Command="{Binding Click}" Grid.Column="1" Grid.Row="2" />
+            <Button Command="{Binding Click}" Grid.Column="2" Grid.Row="2" />
+            <Button Command="{Binding Click}" Grid.Column="3" Grid.Row="2" />
+            <Button Command="{Binding Click}" Grid.Column="4" Grid.Row="2" />
+            <Button Command="{Binding Click}" Grid.Column="5" Grid.Row="2" />
+            <Button Command="{Binding Click}" Grid.Column="6" Grid.Row="2" />
+            <Button Command="{Binding Click}" Grid.Column="7" Grid.Row="2" />
+
+            <Button Command="{Binding Click}" Grid.Column="0" Grid.Row="3" />
+            <Button Command="{Binding Click}" Grid.Column="1" Grid.Row="3" />
+            <Button Command="{Binding Click}" Grid.Column="2" Grid.Row="3" />
+            <Button Command="{Binding Click}" Grid.Column="3" Grid.Row="3" />
+            <Button Command="{Binding Click}" Grid.Column="4" Grid.Row="3" />
+            <Button Command="{Binding Click}" Grid.Column="5" Grid.Row="3" />
+            <Button Command="{Binding Click}" Grid.Column="6" Grid.Row="3" />
+            <Button Command="{Binding Click}" Grid.Column="7" Grid.Row="3" />
+
+            <Button Command="{Binding Click}" Grid.Column="0" Grid.Row="4" />
+            <Button Command="{Binding Click}" Grid.Column="1" Grid.Row="4" />
+            <Button Command="{Binding Click}" Grid.Column="2" Grid.Row="4" />
+            <Button Command="{Binding Click}" Grid.Column="3" Grid.Row="4" />
+            <Button Command="{Binding Click}" Grid.Column="4" Grid.Row="4" />
+            <Button Command="{Binding Click}" Grid.Column="5" Grid.Row="4" />
+            <Button Command="{Binding Click}" Grid.Column="6" Grid.Row="4" />
+            <Button Command="{Binding Click}" Grid.Column="7" Grid.Row="4" />
+
+            <Button Command="{Binding Click}" Grid.Column="0" Grid.Row="5" />
+            <Button Command="{Binding Click}" Grid.Column="1" Grid.Row="5" />
+            <Button Command="{Binding Click}" Grid.Column="2" Grid.Row="5" />
+            <Button Command="{Binding Click}" Grid.Column="3" Grid.Row="5" />
+            <Button Command="{Binding Click}" Grid.Column="4" Grid.Row="5" />
+            <Button Command="{Binding Click}" Grid.Column="5" Grid.Row="5" />
+            <Button Command="{Binding Click}" Grid.Column="6" Grid.Row="5" />
+            <Button Command="{Binding Click}" Grid.Column="7" Grid.Row="5" />
+
+            <Button Command="{Binding Click}" Grid.Column="0" Grid.Row="6" />
+            <Button Command="{Binding Click}" Grid.Column="1" Grid.Row="6" />
+            <Button Command="{Binding Click}" Grid.Column="2" Grid.Row="6" />
+            <Button Command="{Binding Click}" Grid.Column="3" Grid.Row="6" />
+            <Button Command="{Binding Click}" Grid.Column="4" Grid.Row="6" />
+            <Button Command="{Binding Click}" Grid.Column="5" Grid.Row="6" />
+            <Button Command="{Binding Click}" Grid.Column="6" Grid.Row="6" />
+            <Button Command="{Binding Click}" Grid.Column="7" Grid.Row="6" />
+
+            <Button Command="{Binding Click}" Grid.Column="0" Grid.Row="7" />
+            <Button Command="{Binding Click}" Grid.Column="1" Grid.Row="7" />
+            <Button Command="{Binding Click}" Grid.Column="2" Grid.Row="7" />
+            <Button Command="{Binding Click}" Grid.Column="3" Grid.Row="7" />
+            <Button Command="{Binding Click}" Grid.Column="4" Grid.Row="7" />
+            <Button Command="{Binding Click}" Grid.Column="5" Grid.Row="7" />
+            <Button Command="{Binding Click}" Grid.Column="6" Grid.Row="7" />
+            <Button Command="{Binding Click}" Grid.Column="7" Grid.Row="7" />
+        </Grid>
     </Grid>
 </UserControl>
