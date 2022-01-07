@@ -41,10 +41,10 @@ namespace Fonákolós.Views
                     _board[i, j] = Square.EMPTY;
                 }
             }
-            ChangeSquare(3, 3, true, Container.Children.Cast<Button>().Where(btn => Grid.GetColumn(btn) == 3 && Grid.GetRow(btn) == 3).First());
-            ChangeSquare(4, 4, true, Container.Children.Cast<Button>().Where(btn => Grid.GetColumn(btn) == 4 && Grid.GetRow(btn) == 4).First());
-            ChangeSquare(3, 4, false, Container.Children.Cast<Button>().Where(btn => Grid.GetColumn(btn) == 3 && Grid.GetRow(btn) == 4).First());
-            ChangeSquare(4, 3, false, Container.Children.Cast<Button>().Where(btn => Grid.GetColumn(btn) == 4 && Grid.GetRow(btn) == 3).First());
+            ChangeSquare(3, 3, true);
+            ChangeSquare(4, 4, true);
+            ChangeSquare(3, 4, false);
+            ChangeSquare(4, 3, false);
 
             _lightPlayerTurn = true;
         }
@@ -58,23 +58,23 @@ namespace Fonákolós.Views
 
             if (validSquares.Any(t => t.Item1 == row && t.Item2 == column))
             {
-                ChangeSquare(row, column, _lightPlayerTurn, button);
+                ChangeSquare(row, column, _lightPlayerTurn);
 
                 _lightPlayerTurn ^= true;
             }
         }
 
-        private void ChangeSquare(int row, int column, bool lightPlayerTurn, Button button)
+        private void ChangeSquare(int row, int column, bool lightPlayerTurn)
         {
             if (lightPlayerTurn)
             {
                 _board[row, column] = Square.WHITE;
-                button.Background = Brushes.White;
+                Container.Children.Cast<Button>().Where(btn => Grid.GetColumn(btn) == column && Grid.GetRow(btn) == row).First().Background = Brushes.White;
             }
             else
             {
                 _board[row, column] = Square.BLACK;
-                button.Background = Brushes.Black;
+                Container.Children.Cast<Button>().Where(btn => Grid.GetColumn(btn) == column && Grid.GetRow(btn) == row).First().Background = Brushes.Black;
             }
         }
 
