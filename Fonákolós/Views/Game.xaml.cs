@@ -159,7 +159,7 @@ namespace Fonákolós.Views
                     {
                         if (_board[r, c] == Square.EMPTY && _board[r+1, c] == oppositeColor)
                         {
-                            for (int i = 1; i < (7-r); i++)
+                            for (int i = 1; i < (7-r+1); i++)
                             {
                                 if (_board[r+i, c] == Square.EMPTY)
                                 {
@@ -219,7 +219,7 @@ namespace Fonákolós.Views
                     {
                         if (_board[r, c] == Square.EMPTY && _board[r+1, c-1] == oppositeColor)
                         {
-                            for (int i = 1; i < Math.Min(7-r, c+1); i++)
+                            for (int i = 1; i < Math.Min(7-r+1, c+1); i++)
                             {
                                 if (_board[r+i, c-i] == Square.EMPTY)
                                 {
@@ -239,7 +239,7 @@ namespace Fonákolós.Views
                     {
                         if (_board[r, c] == Square.EMPTY && _board[r+1, c+1] == oppositeColor)
                         {
-                            for (int i = 1; i < Math.Min(7-r, 7-c); i++)
+                            for (int i = 1; i < Math.Min(7-r+1, 7-c); i++)
                             {
                                 if (_board[r+i, c+i] == Square.EMPTY)
                                 {
@@ -268,7 +268,7 @@ namespace Fonákolós.Views
 
             //jobbra
 
-            for (int i = 1; i < 7-column; i++)
+            for (int i = 1; i < 7-column+1; i++)
             {
                 if (_board[row, column+i] == oppositeColor)
                 {
@@ -286,6 +286,7 @@ namespace Fonákolós.Views
                     break;
                 }
             }
+            temp.Clear();
 
             //balra
             for (int i = 1; i < (column+1); i++)
@@ -306,6 +307,7 @@ namespace Fonákolós.Views
                     break;
                 }
             }
+            temp.Clear();
 
 
             //fel
@@ -327,9 +329,10 @@ namespace Fonákolós.Views
                     break;
                 }
             }
+            temp.Clear();
 
             //le
-            for (int i = 1; i < (7-row); i++)
+            for (int i = 1; i < (7-row+1); i++)
             {
                 if (_board[row+i, column] == oppositeColor)
                 {
@@ -347,9 +350,10 @@ namespace Fonákolós.Views
                     break;
                 }
             }
+            temp.Clear();
 
             //felső jobb átló felé
-            for (int i = 1; i < Math.Min(row+1, 7-column); i++)
+            for (int i = 1; i < Math.Min(row+1, 7-column+1); i++)
             {
                 if (_board[row-i, column+i] == oppositeColor)
                 {
@@ -367,6 +371,7 @@ namespace Fonákolós.Views
                     break;
                 }
             }
+            temp.Clear();
 
             //felső bal átló felé
             for (int i = 1; i < Math.Min(row+1, column+1); i++)
@@ -387,9 +392,10 @@ namespace Fonákolós.Views
                     break;
                 }
             }
+            temp.Clear();
 
             //lefelé bal átló felé
-            for (int i = 1; i < Math.Min(7-row, column+1); i++)
+            for (int i = 1; i < Math.Min(7-row+1, column+1); i++)
             {
                 if (_board[row+i, column-i] == oppositeColor)
                 {
@@ -407,9 +413,10 @@ namespace Fonákolós.Views
                     break;
                 }
             }
+            temp.Clear();
 
             //lefelé jobb átló felé
-            for (int i = 1; i < Math.Min(7-row, 7-column); i++)
+            for (int i = 1; i < Math.Min(7-row+1, 7-column+1); i++)
             {
                 if (_board[row+i, column+i] == oppositeColor)
                 {
