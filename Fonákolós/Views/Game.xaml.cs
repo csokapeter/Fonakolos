@@ -29,9 +29,10 @@ namespace Fonákolós.Views
         }
 
         private Square[,] _board { get; set; }
-        private bool _lightPlayerTurn;
-        public int _lightPlayerScore;
-        public int _darkPlayerScore;
+        private bool _lightPlayerTurn { get; set; }
+        private bool _isGameOver { get; set; }
+        private int _lightPlayerScore;
+        private int _darkPlayerScore;
 
         public int LightPlayerScore
         {
@@ -72,16 +73,18 @@ namespace Fonákolós.Views
             DarkPlayerScore = 2;
 
             _lightPlayerTurn = true;
+            _isGameOver = false;
         }
 
         //gombokra kattintás kezelése
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var button = (Button)sender;
-            var validSquares = CalculateValidSquares();
+            var validSquares = CalculateValidSquares(_lightPlayerTurn);
             int column = Grid.GetColumn(button);
             int row = Grid.GetRow(button);
 
+            //ha bármelyik érvényes mezőre kattint
             if (validSquares.Any(t => t.Item1 == row && t.Item2 == column))
             {
                 ChangeSquare(row, column, _lightPlayerTurn);
@@ -103,7 +106,15 @@ namespace Fonákolós.Views
                     DarkPlayerScore += surroundedSquares.Count + 1;
                 }
 
-                _lightPlayerTurn ^= true;
+                //ha a másik játékosnak van érvényes lépése, akkor játékost váltunk, ha nincs és a jelenleginek sincs, akkor vége a játéknak, amúgy marad a jelenlegi játékos
+                if (CalculateValidSquares(_lightPlayerTurn ^ true).Count != 0)
+                {
+                    _lightPlayerTurn ^= true;
+                }
+                else if (CalculateValidSquares(_lightPlayerTurn).Count == 0)
+                {
+                    _isGameOver = true;
+                }
             }
         }
 
@@ -123,12 +134,12 @@ namespace Fonákolós.Views
         }
 
         //az érvényes mezőket számolja ki, és adja vissza egy tuple halmazban, ahol a tuple első eleme a mező sor, a második a mező oszlop koordinátája
-        private HashSet<Tuple<int, int>> CalculateValidSquares()
+        private HashSet<Tuple<int, int>> CalculateValidSquares(bool lightPlayerTurn)
         {
             HashSet<Tuple<int, int>> res = new HashSet<Tuple<int, int>>();
 
-            var color = _lightPlayerTurn ? Square.WHITE : Square.BLACK;
-            var oppositeColor = _lightPlayerTurn ? Square.BLACK : Square.WHITE;
+            var color = lightPlayerTurn ? Square.WHITE : Square.BLACK;
+            var oppositeColor = lightPlayerTurn ? Square.BLACK : Square.WHITE;
 
             for (int r = 0; r < 8; r++)
             {
