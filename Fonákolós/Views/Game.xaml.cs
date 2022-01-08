@@ -113,12 +113,12 @@ namespace Fonákolós.Views
             if (lightPlayerTurn)
             {
                 _board[row, column] = Square.WHITE;
-                Container.Children.Cast<Button>().Where(btn => Grid.GetColumn(btn) == column && Grid.GetRow(btn) == row).First().Background = Brushes.White;
+                Container.Children.Cast<Button>().First(btn => Grid.GetColumn(btn) == column && Grid.GetRow(btn) == row).Background = Brushes.White;
             }
             else
             {
                 _board[row, column] = Square.BLACK;
-                Container.Children.Cast<Button>().Where(btn => Grid.GetColumn(btn) == column && Grid.GetRow(btn) == row).First().Background = Brushes.Black;
+                Container.Children.Cast<Button>().First(btn => Grid.GetColumn(btn) == column && Grid.GetRow(btn) == row).Background = Brushes.Black;
             }
         }
 
@@ -137,15 +137,15 @@ namespace Fonákolós.Views
                     //jobbra
                     if (c != 7)
                     {
-                        if (_board[r, c] == Square.EMPTY && _board[r, c+1] == oppositeColor)
+                        if (_board[r, c] == Square.EMPTY && _board[r, c + 1] == oppositeColor)
                         {
-                            for (int i = 1; i < 8-c; i++)
+                            for (int i = 1; i < 8 - c; i++)
                             {
-                                if (_board[r, c+i] == Square.EMPTY)
+                                if (_board[r, c + i] == Square.EMPTY)
                                 {
                                     break;
                                 }
-                                else if (_board[r, c+i] == color)
+                                else if (_board[r, c + i] == color)
                                 {
                                     res.Add(new Tuple<int, int>(r, c));
                                     break;
@@ -159,13 +159,13 @@ namespace Fonákolós.Views
                     {
                         if (_board[r, c] == Square.EMPTY && _board[r, c-1] == oppositeColor)
                         {
-                            for (int i = 1; i < (c+1); i++)
+                            for (int i = 1; i < (c + 1); i++)
                             {
-                                if (_board[r, c-i] == Square.EMPTY)
+                                if (_board[r, c - i] == Square.EMPTY)
                                 {
                                     break;
                                 }
-                                else if (_board[r, c-i] == color)
+                                else if (_board[r, c - i] == color)
                                 {
                                     res.Add(new Tuple<int, int>(r, c));
                                     break;
@@ -179,13 +179,13 @@ namespace Fonákolós.Views
                     {
                         if (_board[r, c] == Square.EMPTY && _board[r-1, c] == oppositeColor)
                         {
-                            for (int i = 1; i < (r+1); i++)
+                            for (int i = 1; i < (r + 1); i++)
                             {
-                                if (_board[r-i, c] == Square.EMPTY)
+                                if (_board[r - i, c] == Square.EMPTY)
                                 {
                                     break;
                                 }
-                                else if (_board[r-i, c] == color)
+                                else if (_board[r - i, c] == color)
                                 {
                                     res.Add(new Tuple<int, int>(r, c));
                                     break;
@@ -197,15 +197,15 @@ namespace Fonákolós.Views
                     //le
                     if (r != 7)
                     {
-                        if (_board[r, c] == Square.EMPTY && _board[r+1, c] == oppositeColor)
+                        if (_board[r, c] == Square.EMPTY && _board[r + 1, c] == oppositeColor)
                         {
-                            for (int i = 1; i < (8-r); i++)
+                            for (int i = 1; i < (8 - r); i++)
                             {
-                                if (_board[r+i, c] == Square.EMPTY)
+                                if (_board[r + i, c] == Square.EMPTY)
                                 {
                                     break;
                                 }
-                                else if (_board[r+i, c] == color)
+                                else if (_board[r + i, c] == color)
                                 {
                                     res.Add(new Tuple<int, int>(r, c));
                                     break;
@@ -217,15 +217,15 @@ namespace Fonákolós.Views
                     //felső jobb átló felé
                     if (r != 0 && c != 7)
                     {
-                        if (_board[r, c] == Square.EMPTY && _board[r-1, c+1] == oppositeColor)
+                        if (_board[r, c] == Square.EMPTY && _board[r - 1, c + 1] == oppositeColor)
                         {
-                            for (int i = 1; i < Math.Min(r+1, 8-c); i++)
+                            for (int i = 1; i < Math.Min(r + 1, 8 - c); i++)
                             {
-                                if (_board[r-i, c+i] == Square.EMPTY)
+                                if (_board[r - i, c + i] == Square.EMPTY)
                                 {
                                     break;
                                 }
-                                else if (_board[r-i, c+i] == color)
+                                else if (_board[r - i, c + i] == color)
                                 {
                                     res.Add(new Tuple<int, int>(r, c));
                                     break;
@@ -237,15 +237,15 @@ namespace Fonákolós.Views
                     //felső bal átló felé
                     if (r != 0 && c != 0)
                     {
-                        if (_board[r, c] == Square.EMPTY && _board[r-1, c-1] == oppositeColor)
+                        if (_board[r, c] == Square.EMPTY && _board[r - 1, c - 1] == oppositeColor)
                         {
-                            for (int i = 1; i < Math.Min(r+1, c+1); i++)
+                            for (int i = 1; i < Math.Min(r + 1, c + 1); i++)
                             {
-                                if (_board[r-i, c-i] == Square.EMPTY)
+                                if (_board[r - i, c - i] == Square.EMPTY)
                                 {
                                     break;
                                 }
-                                else if (_board[r-i, c-i] == color)
+                                else if (_board[r - i, c - i] == color)
                                 {
                                     res.Add(new Tuple<int, int>(r, c));
                                     break;
@@ -257,15 +257,15 @@ namespace Fonákolós.Views
                     //lefelé bal átló felé
                     if (r != 7 && c != 0)
                     {
-                        if (_board[r, c] == Square.EMPTY && _board[r+1, c-1] == oppositeColor)
+                        if (_board[r, c] == Square.EMPTY && _board[r + 1, c - 1] == oppositeColor)
                         {
-                            for (int i = 1; i < Math.Min(8-r, c+1); i++)
+                            for (int i = 1; i < Math.Min(8 - r, c + 1); i++)
                             {
                                 if (_board[r+i, c-i] == Square.EMPTY)
                                 {
                                     break;
                                 }
-                                else if (_board[r+i, c-i] == color)
+                                else if (_board[r + i, c - i] == color)
                                 {
                                     res.Add(new Tuple<int, int>(r, c));
                                     break;
@@ -277,15 +277,15 @@ namespace Fonákolós.Views
                     //lefelé jobb átló felé
                     if (r != 7 && c != 7)
                     {
-                        if (_board[r, c] == Square.EMPTY && _board[r+1, c+1] == oppositeColor)
+                        if (_board[r, c] == Square.EMPTY && _board[r + 1, c + 1] == oppositeColor)
                         {
-                            for (int i = 1; i < Math.Min(8-r, 8-c); i++)
+                            for (int i = 1; i < Math.Min(8 - r, 8 - c); i++)
                             {
-                                if (_board[r+i, c+i] == Square.EMPTY)
+                                if (_board[r + i, c + i] == Square.EMPTY)
                                 {
                                     break;
                                 }
-                                else if (_board[r+i, c+i] == color)
+                                else if (_board[r + i, c + i] == color)
                                 {
                                     res.Add(new Tuple<int, int>(r, c));
                                     break;
@@ -308,13 +308,13 @@ namespace Fonákolós.Views
             var oppositeColor = _lightPlayerTurn ? Square.BLACK : Square.WHITE;
 
             //jobbra
-            for (int i = 1; i < 8-column; i++)
+            for (int i = 1; i < 8 - column; i++)
             {
-                if (_board[row, column+i] == oppositeColor)
+                if (_board[row, column + i] == oppositeColor)
                 {
-                    temp.Add(new Tuple<int, int>(row, column+i));
+                    temp.Add(new Tuple<int, int>(row, column + i));
                 }
-                else if (_board[row, column+i] == color)
+                else if (_board[row, column + i] == color)
                 {
                     res.UnionWith(temp);
                     temp.Clear();
@@ -329,13 +329,13 @@ namespace Fonákolós.Views
             temp.Clear();
 
             //balra
-            for (int i = 1; i < (column+1); i++)
+            for (int i = 1; i < (column + 1); i++)
             {
-                if (_board[row, column-i] == oppositeColor)
+                if (_board[row, column - i] == oppositeColor)
                 {
                     temp.Add(new Tuple<int, int>(row, column-i));
                 }
-                else if (_board[row, column-i] == color)
+                else if (_board[row, column - i] == color)
                 {
                     res.UnionWith(temp);
                     temp.Clear();
@@ -351,13 +351,13 @@ namespace Fonákolós.Views
 
 
             //fel
-            for (int i = 1; i < (row+1); i++)
+            for (int i = 1; i < (row + 1); i++)
             {
-                if (_board[row-i, column] == oppositeColor)
+                if (_board[row - i, column] == oppositeColor)
                 {
-                    temp.Add(new Tuple<int, int>(row-i, column));
+                    temp.Add(new Tuple<int, int>(row - i, column));
                 }
-                else if (_board[row-i, column] == color)
+                else if (_board[row - i, column] == color)
                 {
                     res.UnionWith(temp);
                     temp.Clear();
@@ -372,13 +372,13 @@ namespace Fonákolós.Views
             temp.Clear();
 
             //le
-            for (int i = 1; i < (8-row); i++)
+            for (int i = 1; i < (8 - row); i++)
             {
-                if (_board[row+i, column] == oppositeColor)
+                if (_board[row + i, column] == oppositeColor)
                 {
-                    temp.Add(new Tuple<int, int>(row+i, column));
+                    temp.Add(new Tuple<int, int>(row + i, column));
                 }
-                else if (_board[row+i, column] == color)
+                else if (_board[row + i, column] == color)
                 {
                     res.UnionWith(temp);
                     temp.Clear();
@@ -393,13 +393,13 @@ namespace Fonákolós.Views
             temp.Clear();
 
             //felső jobb átló felé
-            for (int i = 1; i < Math.Min(row+1, 8-column); i++)
+            for (int i = 1; i < Math.Min(row + 1, 8 - column); i++)
             {
-                if (_board[row-i, column+i] == oppositeColor)
+                if (_board[row - i, column + i] == oppositeColor)
                 {
-                    temp.Add(new Tuple<int, int>(row-i, column+i));
+                    temp.Add(new Tuple<int, int>(row - i, column + i));
                 }
-                else if (_board[row-i, column+i] == color)
+                else if (_board[row - i, column + i] == color)
                 {
                     res.UnionWith(temp);
                     temp.Clear();
@@ -414,13 +414,13 @@ namespace Fonákolós.Views
             temp.Clear();
 
             //felső bal átló felé
-            for (int i = 1; i < Math.Min(row+1, column+1); i++)
+            for (int i = 1; i < Math.Min(row + 1, column + 1); i++)
             {
-                if (_board[row-i, column-i] == oppositeColor)
+                if (_board[row - i, column - i] == oppositeColor)
                 {
                     temp.Add(new Tuple<int, int>(row-i, column-i));
                 }
-                else if (_board[row-i, column-i] == color)
+                else if (_board[row - i, column - i] == color)
                 {
                     res.UnionWith(temp);
                     temp.Clear();
@@ -435,13 +435,13 @@ namespace Fonákolós.Views
             temp.Clear();
 
             //lefelé bal átló felé
-            for (int i = 1; i < Math.Min(8-row, column+1); i++)
+            for (int i = 1; i < Math.Min(8 - row, column + 1); i++)
             {
-                if (_board[row+i, column-i] == oppositeColor)
+                if (_board[row + i, column - i] == oppositeColor)
                 {
-                    temp.Add(new Tuple<int, int>(row+i, column-i));
+                    temp.Add(new Tuple<int, int>(row + i, column - i));
                 }
-                else if (_board[row+i, column-i] == color)
+                else if (_board[row + i, column - i] == color)
                 {
                     res.UnionWith(temp);
                     temp.Clear();
@@ -456,13 +456,13 @@ namespace Fonákolós.Views
             temp.Clear();
 
             //lefelé jobb átló felé
-            for (int i = 1; i < Math.Min(8-row, 8-column); i++)
+            for (int i = 1; i < Math.Min(8 - row, 8 - column); i++)
             {
-                if (_board[row+i, column+i] == oppositeColor)
+                if (_board[row + i, column + i] == oppositeColor)
                 {
-                    temp.Add(new Tuple<int, int>(row+i, column+i));
+                    temp.Add(new Tuple<int, int>(row + i, column + i));
                 }
-                else if (_board[row+i, column+i] == color)
+                else if (_board[row + i, column + i] == color)
                 {
                     res.UnionWith(temp);
                     temp.Clear();
