@@ -1,6 +1,7 @@
 ﻿using Fonákolós.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,8 +29,31 @@ namespace Fonákolós.Views
         }
 
         private Square[,] _board { get; set; }
-        private bool _lightPlayerTurn { get; set; }
+        private bool _lightPlayerTurn;
+        public int _lightPlayerScore;
+        public int _darkPlayerScore;
 
+        public int LightPlayerScore
+        {
+            get { return _lightPlayerScore; }
+            set
+            {
+                _lightPlayerScore = value;
+                tbLightPlayerScore.Text = _lightPlayerScore.ToString();
+            }
+        }
+
+        public int DarkPlayerScore
+        {
+            get { return _darkPlayerScore; }
+            set
+            {
+                _darkPlayerScore = value;
+                tbDarkPlayerScore.Text = _darkPlayerScore.ToString();
+            }
+        }
+
+        //beállítja a játék alaphelyzetét
         private void NewGame()
         {
             _board = new Square[8, 8];
@@ -44,10 +68,13 @@ namespace Fonákolós.Views
             ChangeSquare(4, 4, true);
             ChangeSquare(3, 4, false);
             ChangeSquare(4, 3, false);
+            LightPlayerScore = 2;
+            DarkPlayerScore = 2;
 
             _lightPlayerTurn = true;
         }
 
+        //gombokra kattintás kezelése
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var button = (Button)sender;
@@ -65,10 +92,22 @@ namespace Fonákolós.Views
                     ChangeSquare(t.Item1, t.Item2, _lightPlayerTurn);
                 }
 
+                if (_lightPlayerTurn)
+                {
+                    LightPlayerScore += surroundedSquares.Count + 1;
+                    DarkPlayerScore -= surroundedSquares.Count;
+                }
+                else
+                {
+                    LightPlayerScore -= surroundedSquares.Count;
+                    DarkPlayerScore += surroundedSquares.Count + 1;
+                }
+
                 _lightPlayerTurn ^= true;
             }
         }
 
+        //megváltoztatja a tábla adott értékét, és átszínezi az annak megfelelő gombot a UI-on, az éppen lépő játékos színére
         private void ChangeSquare(int row, int column, bool lightPlayerTurn)
         {
             if (lightPlayerTurn)
@@ -83,6 +122,7 @@ namespace Fonákolós.Views
             }
         }
 
+        //az érvényes mezőket számolja ki, és adja vissza egy tuple halmazban, ahol a tuple első eleme a mező sor, a második a mező oszlop koordinátája
         private HashSet<Tuple<int, int>> CalculateValidSquares()
         {
             HashSet<Tuple<int, int>> res = new HashSet<Tuple<int, int>>();
@@ -99,7 +139,7 @@ namespace Fonákolós.Views
                     {
                         if (_board[r, c] == Square.EMPTY && _board[r, c+1] == oppositeColor)
                         {
-                            for (int i = 1; i < 7-c; i++)
+                            for (int i = 1; i < 8-c; i++)
                             {
                                 if (_board[r, c+i] == Square.EMPTY)
                                 {
@@ -159,7 +199,7 @@ namespace Fonákolós.Views
                     {
                         if (_board[r, c] == Square.EMPTY && _board[r+1, c] == oppositeColor)
                         {
-                            for (int i = 1; i < (7-r+1); i++)
+                            for (int i = 1; i < (8-r); i++)
                             {
                                 if (_board[r+i, c] == Square.EMPTY)
                                 {
@@ -179,7 +219,7 @@ namespace Fonákolós.Views
                     {
                         if (_board[r, c] == Square.EMPTY && _board[r-1, c+1] == oppositeColor)
                         {
-                            for (int i = 1; i < Math.Min(r+1, 7-c); i++)
+                            for (int i = 1; i < Math.Min(r+1, 8-c); i++)
                             {
                                 if (_board[r-i, c+i] == Square.EMPTY)
                                 {
@@ -219,7 +259,7 @@ namespace Fonákolós.Views
                     {
                         if (_board[r, c] == Square.EMPTY && _board[r+1, c-1] == oppositeColor)
                         {
-                            for (int i = 1; i < Math.Min(7-r+1, c+1); i++)
+                            for (int i = 1; i < Math.Min(8-r, c+1); i++)
                             {
                                 if (_board[r+i, c-i] == Square.EMPTY)
                                 {
@@ -239,7 +279,7 @@ namespace Fonákolós.Views
                     {
                         if (_board[r, c] == Square.EMPTY && _board[r+1, c+1] == oppositeColor)
                         {
-                            for (int i = 1; i < Math.Min(7-r+1, 7-c); i++)
+                            for (int i = 1; i < Math.Min(8-r, 8-c); i++)
                             {
                                 if (_board[r+i, c+i] == Square.EMPTY)
                                 {
@@ -258,6 +298,7 @@ namespace Fonákolós.Views
             return res;
         }
 
+        //a körbevett mezőket számolja ki, és adja vissza egy tuple halmazban, ahol a tuple első eleme a mező sor, a második a mező oszlop koordinátája
         private HashSet<Tuple<int, int>> CalculateSurroundedSquares(int row, int column)
         {
             HashSet<Tuple<int, int>> res = new HashSet<Tuple<int, int>>();
@@ -267,8 +308,7 @@ namespace Fonákolós.Views
             var oppositeColor = _lightPlayerTurn ? Square.BLACK : Square.WHITE;
 
             //jobbra
-
-            for (int i = 1; i < 7-column+1; i++)
+            for (int i = 1; i < 8-column; i++)
             {
                 if (_board[row, column+i] == oppositeColor)
                 {
@@ -332,7 +372,7 @@ namespace Fonákolós.Views
             temp.Clear();
 
             //le
-            for (int i = 1; i < (7-row+1); i++)
+            for (int i = 1; i < (8-row); i++)
             {
                 if (_board[row+i, column] == oppositeColor)
                 {
@@ -353,7 +393,7 @@ namespace Fonákolós.Views
             temp.Clear();
 
             //felső jobb átló felé
-            for (int i = 1; i < Math.Min(row+1, 7-column+1); i++)
+            for (int i = 1; i < Math.Min(row+1, 8-column); i++)
             {
                 if (_board[row-i, column+i] == oppositeColor)
                 {
@@ -395,7 +435,7 @@ namespace Fonákolós.Views
             temp.Clear();
 
             //lefelé bal átló felé
-            for (int i = 1; i < Math.Min(7-row+1, column+1); i++)
+            for (int i = 1; i < Math.Min(8-row, column+1); i++)
             {
                 if (_board[row+i, column-i] == oppositeColor)
                 {
@@ -416,7 +456,7 @@ namespace Fonákolós.Views
             temp.Clear();
 
             //lefelé jobb átló felé
-            for (int i = 1; i < Math.Min(7-row+1, 7-column+1); i++)
+            for (int i = 1; i < Math.Min(8-row, 8-column); i++)
             {
                 if (_board[row+i, column+i] == oppositeColor)
                 {
