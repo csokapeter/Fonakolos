@@ -25,7 +25,24 @@ namespace Fonákolós.Views
         public Game()
         {
             InitializeComponent();
-            NewGame();
+
+            _board = new Square[8, 8];
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    _board[i, j] = Square.EMPTY;
+                }
+            }
+            ChangeSquare(3, 3, true);
+            ChangeSquare(4, 4, true);
+            ChangeSquare(3, 4, false);
+            ChangeSquare(4, 3, false);
+            LightPlayerScore = 2;
+            DarkPlayerScore = 2;
+
+            _lightPlayerTurn = true;
+            _isGameOver = false;
         }
 
         private Square[,] _board { get; set; }
@@ -52,28 +69,6 @@ namespace Fonákolós.Views
                 _darkPlayerScore = value;
                 tbDarkPlayerScore.Text = _darkPlayerScore.ToString();
             }
-        }
-
-        //beállítja a játék alaphelyzetét
-        private void NewGame()
-        {
-            _board = new Square[8, 8];
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-                    _board[i, j] = Square.EMPTY;
-                }
-            }
-            ChangeSquare(3, 3, true);
-            ChangeSquare(4, 4, true);
-            ChangeSquare(3, 4, false);
-            ChangeSquare(4, 3, false);
-            LightPlayerScore = 2;
-            DarkPlayerScore = 2;
-
-            _lightPlayerTurn = true;
-            _isGameOver = false;
         }
 
         //gombokra kattintás kezelése

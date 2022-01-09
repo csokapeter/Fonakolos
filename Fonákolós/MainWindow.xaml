@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:view="clr-namespace:Fonákolós.Views"
+        xmlns:viewModels="clr-namespace:Fonákolós.ViewModels"
         mc:Ignorable="d"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
@@ -16,7 +17,16 @@
             <Setter Property="BorderBrush" Value="Black" />
         </Style>
     </Window.Resources>
-    <Grid>
-        <view:Game></view:Game>
-    </Grid>
+
+    <ContentControl Content="{Binding CurrentViewModel}" >
+        <ContentControl.Resources>
+            <DataTemplate DataType="{x:Type viewModels:TitleScreenViewModel}">
+                <view:TitleScreen/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:GameViewModel}">
+                <view:Game/>
+            </DataTemplate>
+        </ContentControl.Resources>
+    </ContentControl>
+
 </Window>
