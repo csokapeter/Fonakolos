@@ -9,13 +9,36 @@ using System.Windows.Input;
 
 namespace Fonákolós.ViewModels
 {
-    class TitleScreenViewModel : ViewModelBase
-    { 
+    public class TitleScreenViewModel : ViewModelBase
+    {
+        private string _lightPlayerName;
+        private string _darkPlayerName;
+
+        public string LightPlayerName 
+        {
+            get { return _lightPlayerName; }
+            set
+            {
+                _lightPlayerName = value;
+                OnPropertyChanged(nameof(LightPlayerName));
+            }
+        }
+
+        public string DarkPlayerName
+        {
+            get { return _darkPlayerName; }
+            set
+            {
+                _darkPlayerName = value;
+                OnPropertyChanged(nameof(DarkPlayerName));
+            }
+        }
+
         public ICommand NavigateToGameCommand { get; }
 
         public TitleScreenViewModel(NavigationStore navigationStore)
         {
-            NavigateToGameCommand = new NavigateToGameCommand(navigationStore);
+            NavigateToGameCommand = new NavigateToGameCommand(this, navigationStore);
         }
     }
 }
