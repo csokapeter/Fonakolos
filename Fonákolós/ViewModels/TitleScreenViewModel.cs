@@ -1,4 +1,5 @@
 ﻿using Fonákolós.Commands;
+using Fonákolós.Models;
 using Fonákolós.Stores;
 using System;
 using System.Collections.Generic;
@@ -35,10 +36,12 @@ namespace Fonákolós.ViewModels
         }
 
         public ICommand NavigateToGameCommand { get; }
+        public ICommand NavigateToGameCommandComputer { get; }
 
         public TitleScreenViewModel(NavigationStore navigationStore)
         {
-            NavigateToGameCommand = new NavigateToGameCommand(this, navigationStore);
+            NavigateToGameCommand = new NavigateToGameCommand(this, navigationStore, GameMode.MULTIPLAYER);
+            NavigateToGameCommandComputer = new NavigateToGameCommand(this, navigationStore, GameMode.SOLO);
         }
     }
 }

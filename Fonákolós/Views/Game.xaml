@@ -9,19 +9,26 @@
 
     <Grid DataContext="{Binding RelativeSource={RelativeSource AncestorType=UserControl}}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="2*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
             <RowDefinition Height="8*" />
         </Grid.RowDefinitions>
 
-        <StackPanel Background="Beige" Grid.Row="0" Orientation="Horizontal">
+        <StackPanel Background="ForestGreen" Grid.Row="0" Orientation="Horizontal">
             <Label Content="Fehér:" FontSize="40" />
             <TextBlock Name="tbLightPlayerScore" Width="60" FontSize="40" HorizontalAlignment="Left" Margin="0,6,0,0" />
             <Label Content="Fekete:" FontSize="40" Margin="40,0,0,0" />
             <TextBlock Name="tbDarkPlayerScore" Width="60" FontSize="40" HorizontalAlignment="Left" Margin="0,6,0,0" />
             <Label Content="Eltelt idő: " FontSize="40" Margin="100,0,0,0" />
-            <TextBlock FontSize="40" />
+            <TextBlock Name="tbTime" FontSize="40" HorizontalAlignment="Left" Margin="0,6,0,0"/>
         </StackPanel>
-        <Grid x:Name="Container" Grid.Row="1" Margin="8">
+
+        <StackPanel Background="ForestGreen" Grid.Row="1" Orientation="Horizontal">
+            <Label Name="lightPlayerNameLabel" Content="" Width="200" FontSize="30" Foreground="White"/>
+            <Label Name="darkPlayerNameLabel" Content="" Width="200" FontSize="30" Foreground="Black"/>
+        </StackPanel>
+        
+        <Grid x:Name="Container" Grid.Row="2" Margin="8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />

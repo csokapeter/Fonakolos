@@ -1,4 +1,5 @@
 ﻿using Fonákolós.Models;
+using Fonákolós.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace Fonákolós.Views
 {
@@ -42,14 +44,24 @@ namespace Fonákolós.Views
             DarkPlayerScore = 2;
 
             _lightPlayerTurn = true;
-            _isGameOver = false;
+
+            _secondsFromStart = 0;
+
+            _timer = new DispatcherTimer()
+            {
+                Interval = TimeSpan.FromSeconds(1),
+            };
+            _timer.Tick += OnTick;
+            _timer.Start();
         }
+
 
         private Square[,] _board { get; set; }
         private bool _lightPlayerTurn { get; set; }
-        private bool _isGameOver { get; set; }
         private int _lightPlayerScore;
         private int _darkPlayerScore;
+        private int _secondsFromStart;
+        private DispatcherTimer _timer;
 
         public int LightPlayerScore
         {
@@ -69,6 +81,21 @@ namespace Fonákolós.Views
                 _darkPlayerScore = value;
                 tbDarkPlayerScore.Text = _darkPlayerScore.ToString();
             }
+        }
+
+        public int SecondsFromStart 
+        { 
+            get { return _secondsFromStart; } 
+            set
+            {
+                _secondsFromStart = value;
+                tbTime.Text = _secondsFromStart.ToString();
+            }
+        }
+
+        private void OnTick(object sender, EventArgs e)
+        {
+            SecondsFromStart += 1;
         }
 
         //gombokra kattintás kezelése
@@ -108,10 +135,11 @@ namespace Fonákolós.Views
                 }
                 else if (CalculateValidSquares(_lightPlayerTurn).Count == 0)
                 {
-                    _isGameOver = true;
+                    GameOver();
                 }
             }
         }
+
 
         //megváltoztatja a tábla adott értékét, és átszínezi az annak megfelelő gombot a UI-on, az éppen lépő játékos színére
         private void ChangeSquare(int row, int column, bool lightPlayerTurn)
@@ -481,6 +509,13 @@ namespace Fonákolós.Views
                 }
             }
             return res;
+        }
+
+        private void GameOver()
+        {
+            _timer.Tick -= OnTick;
+            _timer.Stop();
+            MessageBox.Show("Game is over");
         }
     }
 }
