@@ -9,24 +9,42 @@ using System.Windows.Input;
 
 namespace Fonákolós.ViewModels
 {
-    class GameViewModel : ViewModelBase
+    public class GameViewModel : ViewModelBase
     {
         private string _lightPlayerName;
         private string _darkPlayerName;
         private GameMode _gameMode;
 
+        public string LightPlayerName 
+        { 
+            get { return _lightPlayerName; } 
+            set { _lightPlayerName = value; }
+        }
+
+        public string DarkPlayerName
+        {
+            get { return _darkPlayerName; }
+            set { _darkPlayerName = value; }
+        }
+
+        public GameMode GameMode
+        {
+            get { return _gameMode; }
+            set { _gameMode = value; }
+        }
+
         public GameViewModel(string lightPlayerName, GameMode gameMode)
         {
-            _lightPlayerName = lightPlayerName;
-            _darkPlayerName = "COMPUTER";
-            _gameMode = gameMode;
+            LightPlayerName = lightPlayerName;
+            DarkPlayerName = "COMPUTER";
+            GameMode = gameMode;
         }
 
         public GameViewModel(string lightPlayerName, string darkPlayerName, GameMode gameMode)
         {
-            _lightPlayerName = lightPlayerName;
-            _darkPlayerName = darkPlayerName;
-            _gameMode = gameMode;
+            LightPlayerName = lightPlayerName;
+            DarkPlayerName = darkPlayerName;
+            GameMode = gameMode;
         }
 
     }

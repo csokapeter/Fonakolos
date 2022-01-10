@@ -43,10 +43,11 @@ namespace Fonákolós.Views
             LightPlayerScore = 2;
             DarkPlayerScore = 2;
 
-            _lightPlayerTurn = true;
+            _random = new Random();
+            _lightPlayerTurn = Convert.ToBoolean(_random.Next(0, 2));
+            SetNextPlayerNameLabel();
 
-            _secondsFromStart = 0;
-
+            SecondsFromStart = 0;
             _timer = new DispatcherTimer()
             {
                 Interval = TimeSpan.FromSeconds(1),
@@ -61,6 +62,7 @@ namespace Fonákolós.Views
         private int _lightPlayerScore;
         private int _darkPlayerScore;
         private int _secondsFromStart;
+        private Random _random { get; set; }
         private DispatcherTimer _timer;
 
         public int LightPlayerScore
@@ -132,11 +134,27 @@ namespace Fonákolós.Views
                 if (CalculateValidSquares(_lightPlayerTurn ^ true).Count != 0)
                 {
                     _lightPlayerTurn ^= true;
+                    SetNextPlayerNameLabel();
+
                 }
                 else if (CalculateValidSquares(_lightPlayerTurn).Count == 0)
                 {
                     GameOver();
                 }
+            }
+        }
+
+        private void SetNextPlayerNameLabel()
+        {
+            if (_lightPlayerTurn)
+            {
+                NextPlayerNameLabel.Content = LightPlayerNameLabel.Content;
+                NextPlayerNameLabel.Foreground = Brushes.White;
+            }
+            else
+            {
+                NextPlayerNameLabel.Content = DarkPlayerNameLabel.Content;
+                NextPlayerNameLabel.Foreground = Brushes.Black;
             }
         }
 
@@ -515,7 +533,20 @@ namespace Fonákolós.Views
         {
             _timer.Tick -= OnTick;
             _timer.Stop();
-            MessageBox.Show("Game is over");
+
+            if (_lightPlayerScore > _darkPlayerScore)
+            {
+                MessageBox.Show($"{LightPlayerNameLabel.Content.ToString()} nyert!");
+            }
+            else if (_lightPlayerScore < _darkPlayerScore)
+            {
+                MessageBox.Show($"{LightPlayerNameLabel.Content.ToString()} nyert!");
+            }
+            else
+            {
+                MessageBox.Show("A játék döntetlen!");
+            }
+            
         }
     }
 }
