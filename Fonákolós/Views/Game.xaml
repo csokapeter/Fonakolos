@@ -8,40 +8,43 @@
              mc:Ignorable="d" 
              d:DesignHeight="1000" d:DesignWidth="800">
     
-    <Grid>
+    <UserControl.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="Bisque" />
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="50" />
+                </Style>
+            </Style.Resources>
+        </Style>
+    </UserControl.Resources>
+    
+    <Grid Background="Bisque">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" />
             <RowDefinition Height="1*" />
             <RowDefinition Height="8*" />
         </Grid.RowDefinitions>
-
-        <StackPanel Background="ForestGreen" Grid.Row="0" Orientation="Horizontal">
-            <Label Content="Fehér:" FontSize="40" />
-            <TextBlock Name="tbLightPlayerScore" Width="60" FontSize="40" HorizontalAlignment="Left" Margin="0,6,0,0" />
-            <Label Content="Fekete:" FontSize="40" Margin="40,0,0,0" />
-            <TextBlock Name="tbDarkPlayerScore" Width="60" FontSize="40" HorizontalAlignment="Left" Margin="0,6,0,0" />
-            <Label Content="Eltelt idő: " FontSize="40" Margin="100,0,0,0" />
-            <TextBlock Name="tbTime" FontSize="40" HorizontalAlignment="Left" Margin="0,6,0,0"/>
+        
+        <StackPanel Background="BurlyWood" Grid.Row="0" Orientation="Horizontal">
+            <Label Name="LightPlayerNameLabel" Content="{Binding LightPlayerName}" MaxWidth="200" FontSize="30" Foreground="White"/>
+            <Label Content=":" FontSize="30" Foreground="White"/>
+            <TextBlock Name="tbLightPlayerScore" Width="60" FontSize="30" Foreground="White" HorizontalAlignment="Left" Margin="0,6,0,0" />
+            <Label Name="DarkPlayerNameLabel" Content="{Binding DarkPlayerName}" MaxWidth="200" FontSize="30" Foreground="Black" />
+            <Label Content=":" FontSize="30"/>
+            <TextBlock Name="tbDarkPlayerScore" Width="60" FontSize="30" HorizontalAlignment="Left" Margin="0,6,0,0" />
+            <Label Content="Eltelt idő: " FontSize="30" />
+            <TextBlock Name="tbTime" FontSize="30" HorizontalAlignment="Left" Margin="0,6,0,0"/>
         </StackPanel>
 
-        <Grid Background="ForestGreen" Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-
-            <StackPanel Grid.Row="0" Orientation="Horizontal">
-                <Label Name="LightPlayerNameLabel"  Content="{Binding LightPlayerName}" FontSize="30" Foreground="White" Margin="0,0,15,0"/>
-                <Label Name="DarkPlayerNameLabel" Content="{Binding DarkPlayerName}" FontSize="30" Foreground="Black"/>
-            </StackPanel>
-
-            <StackPanel Grid.Row="1" Orientation="Horizontal">
+        <Grid Background="BurlyWood" Grid.Row="1">
+            <StackPanel Orientation="Horizontal">
                 <Label Content="A következő játékos:" FontSize="30"/>
                 <Label Name="NextPlayerNameLabel" Content="" FontSize="30" />
             </StackPanel>
         </Grid>
         
-        <Grid x:Name="Container" Grid.Row="2" Margin="8">
+        <Grid x:Name="Container" Grid.Row="2" Margin="8" Background="Bisque">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />

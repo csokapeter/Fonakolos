@@ -534,13 +534,13 @@ namespace Fonákolós.Views
             _timer.Tick -= OnTick;
             _timer.Stop();
 
-            if (_lightPlayerScore > _darkPlayerScore)
+            if (LightPlayerScore > DarkPlayerScore)
             {
                 MessageBox.Show($"{LightPlayerNameLabel.Content.ToString()} nyert!");
             }
-            else if (_lightPlayerScore < _darkPlayerScore)
+            else if (LightPlayerScore < DarkPlayerScore)
             {
-                MessageBox.Show($"{LightPlayerNameLabel.Content.ToString()} nyert!");
+                MessageBox.Show($"{DarkPlayerNameLabel.Content.ToString()} nyert!");
             }
             else
             {
