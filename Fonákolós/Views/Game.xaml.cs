@@ -1,5 +1,4 @@
 ﻿using Fonákolós.Models;
-using Fonákolós.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,7 +13,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace Fonákolós.Views
@@ -45,7 +43,16 @@ namespace Fonákolós.Views
 
             _random = new Random();
             _lightPlayerTurn = Convert.ToBoolean(_random.Next(0, 2));
-            SetNextPlayerNameLabel();
+            if (_lightPlayerTurn)
+            {
+                NextPlayerNameLabel.Content = "WHITE";
+                NextPlayerNameLabel.Foreground = Brushes.White;
+            }
+            else
+            {
+                NextPlayerNameLabel.Content = "BLACK";
+                NextPlayerNameLabel.Foreground = Brushes.Black;
+            }
 
             SecondsFromStart = 0;
             _timer = new DispatcherTimer()
