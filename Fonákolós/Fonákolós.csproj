@@ -14,6 +14,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Prism.Core" Version="8.1.97" />
+    <PackageReference Include="SQLExpress" Version="1.4.1" />
   </ItemGroup>
 
 </Project>
