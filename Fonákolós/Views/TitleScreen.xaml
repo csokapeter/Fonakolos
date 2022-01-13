@@ -38,10 +38,12 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
             <Button Command="{Binding NavigateToGameCommand}" Grid.Column="0" Content="Játék egymás ellen" FontSize="20" Width="250" Height="100"/>
             <Button Command="{Binding NavigateToGameCommandComputer}" Grid.Column="1" Content="Játék számítógép ellen" FontSize="20" Width="250" Height="100" />
+            <Button Command="{Binding NavigateToGameCommandScoreboard}" Grid.Column="2" Content="Eredmény tábla" FontSize="20" Width="250" Height="100" />
         </Grid>
     </Grid>
 </UserControl>

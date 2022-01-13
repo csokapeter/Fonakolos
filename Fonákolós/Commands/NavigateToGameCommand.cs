@@ -37,6 +37,10 @@ namespace Fonákolós.Commands
             {
                 _navigationStore.CurrentViewModel = new GameViewModel(_viewModel.LightPlayerName, _gameMode);
             }
+            else if (_gameMode == GameMode.SCOREBOARD)
+            {
+                _navigationStore.CurrentViewModel = new GameViewModel(_gameMode);
+            }
             else
             {
                 MessageBox.Show("Adja meg az első játékkos felhasználónevet! A névben csak betűk és számok lehetnek!");

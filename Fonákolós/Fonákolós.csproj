@@ -13,10 +13,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Prism.Core" Version="8.1.97" />
     <PackageReference Include="SQLExpress" Version="1.4.1" />
   </ItemGroup>
 
-  <ProjectExtensions><VisualStudio><UserProperties score_1json__JsonSchema="[" /></VisualStudio></ProjectExtensions>
+  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 
 </Project>
