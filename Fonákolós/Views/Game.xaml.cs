@@ -561,18 +561,20 @@ namespace Fonákolós.Views
         }
         private void SavingScore()
         {
+
             string LightPlayer = LightPlayerNameLabel.Content.ToString();
             string DarkPlayer = DarkPlayerNameLabel.Content.ToString();
             string WinningPlayer;
 
+            var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+            String filename = Path.Combine(systemPath, "score.json");
 
-            string path = Directory.GetParent(System.Reflection.Assembly.GetExecutingAssembly().Location).FullName;
-            String filename = Path.Combine(path, ".//score.json"); 
+
 
             if (!File.Exists(filename))
             {
-                FileStream stream = File.Create(filename);
-                stream.Close();
+                File.Create(filename);
+                
             }
 
             if (LightPlayerScore > DarkPlayerScore)
