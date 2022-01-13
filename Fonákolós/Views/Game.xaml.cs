@@ -14,7 +14,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Threading;
-using System.Xml;
 using System.Text.Json;
 using System.IO;
 
@@ -95,9 +94,9 @@ namespace Fonákolós.Views
             }
         }
 
-        public int SecondsFromStart 
-        { 
-            get { return _secondsFromStart; } 
+        public int SecondsFromStart
+        {
+            get { return _secondsFromStart; }
             set
             {
                 _secondsFromStart = value;
@@ -150,6 +149,7 @@ namespace Fonákolós.Views
                 else if (CalculateValidSquares(_lightPlayerTurn).Count == 0)
                 {
                     GameOver();
+                    SavingScore();
                 }
             }
         }
@@ -219,7 +219,7 @@ namespace Fonákolós.Views
                     //balra
                     if (c != 0)
                     {
-                        if (_board[r, c] == Square.EMPTY && _board[r, c-1] == oppositeColor)
+                        if (_board[r, c] == Square.EMPTY && _board[r, c - 1] == oppositeColor)
                         {
                             for (int i = 1; i < (c + 1); i++)
                             {
@@ -239,7 +239,7 @@ namespace Fonákolós.Views
                     //fel
                     if (r != 0)
                     {
-                        if (_board[r, c] == Square.EMPTY && _board[r-1, c] == oppositeColor)
+                        if (_board[r, c] == Square.EMPTY && _board[r - 1, c] == oppositeColor)
                         {
                             for (int i = 1; i < (r + 1); i++)
                             {
@@ -323,7 +323,7 @@ namespace Fonákolós.Views
                         {
                             for (int i = 1; i < Math.Min(8 - r, c + 1); i++)
                             {
-                                if (_board[r+i, c-i] == Square.EMPTY)
+                                if (_board[r + i, c - i] == Square.EMPTY)
                                 {
                                     break;
                                 }
@@ -395,7 +395,7 @@ namespace Fonákolós.Views
             {
                 if (_board[row, column - i] == oppositeColor)
                 {
-                    temp.Add(new Tuple<int, int>(row, column-i));
+                    temp.Add(new Tuple<int, int>(row, column - i));
                 }
                 else if (_board[row, column - i] == color)
                 {
@@ -480,7 +480,7 @@ namespace Fonákolós.Views
             {
                 if (_board[row - i, column - i] == oppositeColor)
                 {
-                    temp.Add(new Tuple<int, int>(row-i, column-i));
+                    temp.Add(new Tuple<int, int>(row - i, column - i));
                 }
                 else if (_board[row - i, column - i] == color)
                 {
@@ -543,39 +543,64 @@ namespace Fonákolós.Views
         {
             _timer.Tick -= OnTick;
             _timer.Stop();
-            string LightPlayer = LightPlayerNameLabel.Content.ToString();
-            string DarkPlayer = DarkPlayerNameLabel.Content.ToString();
-            string WinningPlayer;
+
 
 
             if (LightPlayerScore > DarkPlayerScore)
             {
                 MessageBox.Show($"{LightPlayerNameLabel.Content.ToString()} nyert!");
-                WinningPlayer = LightPlayerNameLabel.Content.ToString();
             }
             else if (LightPlayerScore < DarkPlayerScore)
             {
                 MessageBox.Show($"{DarkPlayerNameLabel.Content.ToString()} nyert!");
-                WinningPlayer = DarkPlayerNameLabel.Content.ToString();
             }
             else
             {
                 MessageBox.Show("A játék döntetlen!");
+            }
+        }
+        private void SavingScore()
+        {
+            string LightPlayer = LightPlayerNameLabel.Content.ToString();
+            string DarkPlayer = DarkPlayerNameLabel.Content.ToString();
+            string WinningPlayer;
+
+
+            string path = Directory.GetParent(System.Reflection.Assembly.GetExecutingAssembly().Location).FullName;
+            String filename = Path.Combine(path, ".//score.json"); 
+
+            if (!File.Exists(filename))
+            {
+                FileStream stream = File.Create(filename);
+                stream.Close();
+            }
+
+            if (LightPlayerScore > DarkPlayerScore)
+            {
+                WinningPlayer = LightPlayer;
+            }
+            else if (LightPlayerScore < DarkPlayerScore)
+            {
+                WinningPlayer = DarkPlayer;
+            }
+            else
+            {
                 WinningPlayer = "Döntetlen";
             }
 
-            List<Scoreboard> _scoreboard = new List<Scoreboard>();
-            _scoreboard.Add(new Scoreboard()
+            List<Scoreboard> _data = new List<Scoreboard>();
+            _data.Add(new Scoreboard()
             {
-                LightPlayerName = $"{LightPlayerNameLabel.Content.ToString()}",
-                LightPlayerScore = LightPlayerScore,
-                DarkPlayerName = $"{LightPlayerNameLabel.Content.ToString()}",
-                DarkPlayerScore = DarkPlayerScore,
+                LightPlayerName = LightPlayer,
+                LightScore = LightPlayerScore,
+                DarkPlayerName = DarkPlayer,
+                DarkScore = DarkPlayerScore,
                 Winner = WinningPlayer,
                 GameTime = SecondsFromStart
             });
-            string json = JsonSerializer.Serialize(_scoreboard);
-            File.WriteAllText(@"..\score.json", json);
+
+            string json = JsonSerializer.Serialize(_data);
+            File.WriteAllText(filename, json);
         }
     }
 }
