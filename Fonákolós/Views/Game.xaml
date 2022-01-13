@@ -35,6 +35,7 @@
             <TextBlock Name="tbDarkPlayerScore" Width="60" FontSize="30" HorizontalAlignment="Left" Margin="0,6,0,0" />
             <Label Content="Eltelt idő: " FontSize="30" />
             <TextBlock Name="tbTime" FontSize="30" HorizontalAlignment="Left" Margin="0,6,0,0"/>
+            <Label Name="GameModeLabel" Content="{Binding GameMode}"  MaxWidth="200" FontSize="30" Foreground="BurlyWood" Margin="200,6,0,0" />
         </StackPanel>
 
         <Grid Background="BurlyWood" Grid.Row="1">

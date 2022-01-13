@@ -63,6 +63,11 @@ namespace Fonákolós.Views
             };
             _timer.Tick += OnTick;
             _timer.Start();
+
+            if (IsSinglePlayer() == true)
+            {
+                GameWithAI();
+            }
         }
 
 
@@ -71,6 +76,7 @@ namespace Fonákolós.Views
         private int _lightPlayerScore;
         private int _darkPlayerScore;
         private int _secondsFromStart;
+        private GameMode _gameMode;
         private Random _random { get; set; }
         private DispatcherTimer _timer;
 
@@ -94,9 +100,9 @@ namespace Fonákolós.Views
             }
         }
 
-        public int SecondsFromStart
-        {
-            get { return _secondsFromStart; }
+        public int SecondsFromStart 
+        { 
+            get { return _secondsFromStart; } 
             set
             {
                 _secondsFromStart = value;
@@ -107,6 +113,68 @@ namespace Fonákolós.Views
         private void OnTick(object sender, EventArgs e)
         {
             SecondsFromStart += 1;
+        }
+
+        private bool IsSinglePlayer() 
+        {
+            if (_gameMode == GameMode.SOLO)
+            {
+                return true;
+            }
+            else 
+            { 
+                return false;
+            }
+        }
+
+        private void GameWithAI() 
+        {
+            if (_lightPlayerTurn == false) 
+            {
+                var validSquares = CalculateValidSquares(_lightPlayerTurn);
+                _random = new Random();
+                Tuple<int, int>[] asArray = validSquares.ToArray();
+                Tuple<int,int> randomMove = asArray[_random.Next(asArray.Length)];
+
+                int row = randomMove.Item1;
+                int col = randomMove.Item2;
+
+                ChangeSquare(row, col, _lightPlayerTurn);
+
+                var surroundedSquares = CalculateSurroundedSquares(row, col);
+                foreach (var t in surroundedSquares)
+                {
+                    ChangeSquare(t.Item1, t.Item2, _lightPlayerTurn);
+                }
+
+                if (_lightPlayerTurn)
+                {
+                    LightPlayerScore += surroundedSquares.Count + 1;
+                    DarkPlayerScore -= surroundedSquares.Count;
+                }
+                else
+                {
+                    LightPlayerScore -= surroundedSquares.Count;
+                    DarkPlayerScore += surroundedSquares.Count + 1;
+                }
+
+                //ha a másik játékosnak van érvényes lépése, akkor játékost váltunk, ha nincs és a jelenleginek sincs, akkor vége a játéknak, amúgy marad a jelenlegi játékos
+                if (CalculateValidSquares(_lightPlayerTurn ^ true).Count != 0)
+                {
+                    _lightPlayerTurn ^= true;
+                    SetNextPlayerNameLabel();
+                    if (_lightPlayerTurn == false && IsSinglePlayer() == true)
+                    {
+                        GameWithAI();
+                    }
+                }
+                else if (CalculateValidSquares(_lightPlayerTurn).Count == 0)
+                {
+                    GameOver();
+                }
+
+            }
+
         }
 
         //gombokra kattintás kezelése
@@ -144,7 +212,10 @@ namespace Fonákolós.Views
                 {
                     _lightPlayerTurn ^= true;
                     SetNextPlayerNameLabel();
-
+                    if (_lightPlayerTurn == false && IsSinglePlayer() == true)
+                    {
+                        GameWithAI();
+                    }
                 }
                 else if (CalculateValidSquares(_lightPlayerTurn).Count == 0)
                 {
