@@ -171,6 +171,7 @@ namespace Fonákolós.Views
                 else if (CalculateValidSquares(_lightPlayerTurn).Count == 0)
                 {
                     GameOver();
+                    SavingScore();
                 }
 
             }
