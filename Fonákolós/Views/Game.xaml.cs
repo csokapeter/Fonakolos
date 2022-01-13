@@ -115,6 +115,7 @@ namespace Fonákolós.Views
             SecondsFromStart += 1;
         }
 
+        //megnézi hogy gép ellen játszunk-e
         private bool IsSinglePlayer() 
         {
             if (_gameMode == GameMode.SOLO)
@@ -127,54 +128,144 @@ namespace Fonákolós.Views
             }
         }
 
+        //AI elleni játék
         private void GameWithAI() 
         {
             if (_lightPlayerTurn == false) 
             {
-                var validSquares = CalculateValidSquares(_lightPlayerTurn);
-                _random = new Random();
-                Tuple<int, int>[] asArray = validSquares.ToArray();
-                Tuple<int,int> randomMove = asArray[_random.Next(asArray.Length)];
-
-                int row = randomMove.Item1;
-                int col = randomMove.Item2;
-
-                ChangeSquare(row, col, _lightPlayerTurn);
-
-                var surroundedSquares = CalculateSurroundedSquares(row, col);
-                foreach (var t in surroundedSquares)
+                //kiválasztja a legjobb lépést
+                if (IsFirstAIMove(_board) == true)
                 {
-                    ChangeSquare(t.Item1, t.Item2, _lightPlayerTurn);
-                }
+                    var validSquares = CalculateValidSquares(_lightPlayerTurn);
+                    //az első elem a sor, második az oszlop, harmadik a score
+                    int[] bestMove = {0, 0, 0};
 
-                if (_lightPlayerTurn)
-                {
-                    LightPlayerScore += surroundedSquares.Count + 1;
-                    DarkPlayerScore -= surroundedSquares.Count;
-                }
-                else
-                {
-                    LightPlayerScore -= surroundedSquares.Count;
-                    DarkPlayerScore += surroundedSquares.Count + 1;
-                }
-
-                //ha a másik játékosnak van érvényes lépése, akkor játékost váltunk, ha nincs és a jelenleginek sincs, akkor vége a játéknak, amúgy marad a jelenlegi játékos
-                if (CalculateValidSquares(_lightPlayerTurn ^ true).Count != 0)
-                {
-                    _lightPlayerTurn ^= true;
-                    SetNextPlayerNameLabel();
-                    if (_lightPlayerTurn == false && IsSinglePlayer() == true)
+                    foreach (var t in validSquares)
                     {
-                        GameWithAI();
+                        int row = t.Item1;
+                        int col = t.Item2;
+                        var surroundedSquaresForScore = CalculateSurroundedSquares(row, col);
+                        Tuple<int, int>[] scoreArray = surroundedSquaresForScore.ToArray();
+                        int moveScore = scoreArray.Length;
+                        if (moveScore > bestMove[2])
+                        {
+                            bestMove = new int[] {row, col, moveScore};
+                        }
+                    }
+                    ChangeSquare(bestMove[0], bestMove[1], _lightPlayerTurn);
+
+                    var surroundedSquares = CalculateSurroundedSquares(bestMove[0], bestMove[1]);
+                    foreach (var t in surroundedSquares)
+                    {
+                        ChangeSquare(t.Item1, t.Item2, _lightPlayerTurn);
+                    }
+
+                    if (_lightPlayerTurn)
+                    {
+                        LightPlayerScore += surroundedSquares.Count + 1;
+                        DarkPlayerScore -= surroundedSquares.Count;
+                    }
+                    else
+                    {
+                        LightPlayerScore -= surroundedSquares.Count;
+                        DarkPlayerScore += surroundedSquares.Count + 1;
+                    }
+
+                    //ha a másik játékosnak van érvényes lépése, akkor játékost váltunk, ha nincs és a jelenleginek sincs, akkor vége a játéknak, amúgy marad a jelenlegi játékos
+                    if (CalculateValidSquares(_lightPlayerTurn ^ true).Count != 0)
+                    {
+                        _lightPlayerTurn ^= true;
+                        SetNextPlayerNameLabel();
+                        if (_lightPlayerTurn == false && IsSinglePlayer() == true)
+                        {
+                            GameWithAI();
+                        }
+                    }
+                    else if (CalculateValidSquares(_lightPlayerTurn).Count == 0)
+                    {
+                        GameOver();
+                        SavingScore();
                     }
                 }
-                else if (CalculateValidSquares(_lightPlayerTurn).Count == 0)
-                {
-                    GameOver();
-                }
 
+                //random lép
+                else
+                {
+                    var validSquares = CalculateValidSquares(_lightPlayerTurn);
+                    _random = new Random();
+                    Tuple<int, int>[] asArray = validSquares.ToArray();
+                    Tuple<int, int> randomMove = asArray[_random.Next(asArray.Length)];
+
+                    int row = randomMove.Item1;
+                    int col = randomMove.Item2;
+
+                    ChangeSquare(row, col, _lightPlayerTurn);
+
+                    var surroundedSquares = CalculateSurroundedSquares(row, col);
+                    foreach (var t in surroundedSquares)
+                    {
+                        ChangeSquare(t.Item1, t.Item2, _lightPlayerTurn);
+                    }
+
+                    if (_lightPlayerTurn)
+                    {
+                        LightPlayerScore += surroundedSquares.Count + 1;
+                        DarkPlayerScore -= surroundedSquares.Count;
+                    }
+                    else
+                    {
+                        LightPlayerScore -= surroundedSquares.Count;
+                        DarkPlayerScore += surroundedSquares.Count + 1;
+                    }
+
+                    //ha a másik játékosnak van érvényes lépése, akkor játékost váltunk, ha nincs és a jelenleginek sincs, akkor vége a játéknak, amúgy marad a jelenlegi játékos
+                    if (CalculateValidSquares(_lightPlayerTurn ^ true).Count != 0)
+                    {
+                        _lightPlayerTurn ^= true;
+                        SetNextPlayerNameLabel();
+                        if (_lightPlayerTurn == false && IsSinglePlayer() == true)
+                        {
+                            GameWithAI();
+                        }
+                    }
+                    else if (CalculateValidSquares(_lightPlayerTurn).Count == 0)
+                    {
+                        GameOver();
+                        SavingScore();
+                    }
+                }
+            }
+        }
+
+        //megnézi hogy az adott lépés az AI első lépése vagy sem
+        private bool IsFirstAIMove(Square[,] board) 
+        {
+            int darkCounter = 0;
+            int lightCounter = 0;
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    if (board[i, j] == Square.BLACK)
+                    {
+                        darkCounter += 1;
+                    }
+                    else if (board[i, j] == Square.WHITE)
+                    {
+                        lightCounter += 1;
+                    }
+                    
+                }
             }
 
+            if (darkCounter > 2 || lightCounter > 2)
+            {
+                return false;
+            }
+            else 
+            { 
+                return true;
+            }
         }
 
         //gombokra kattintás kezelése
