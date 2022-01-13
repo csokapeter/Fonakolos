@@ -10,6 +10,5 @@ namespace Fonákolós.Models
     {
         SOLO,
         MULTIPLAYER,
-        SCOREBOARD
     }
 }

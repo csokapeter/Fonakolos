@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Fonákolós.Models
 {
-    internal class Scoreboard
+    public class Scoreboard
     {
         /*public int Id { get; set; }*/
         public String LightPlayerName { get; set; }

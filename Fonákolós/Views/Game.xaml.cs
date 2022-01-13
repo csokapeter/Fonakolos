@@ -218,44 +218,21 @@ namespace Fonákolós.Views
                         DarkPlayerScore += surroundedSquares.Count + 1;
                     }
 
-                    //ha a másik játékosnak van érvényes lépése, akkor játékost váltunk, ha nincs és a jelenleginek sincs, akkor vége a játéknak, amúgy marad a jelenlegi játékos
-                    if (CalculateValidSquares(_lightPlayerTurn ^ true).Count != 0)
-                    {
-                        _lightPlayerTurn ^= true;
-                        SetNextPlayerNameLabel();
-                        if (_lightPlayerTurn == false && IsSinglePlayer() == true)
-                        {
-                            GameWithAI();
-                        }
-                    }
-                    else if (CalculateValidSquares(_lightPlayerTurn).Count == 0)
-                    {
-                        GameOver();
-                        SavingScore();
-                    }
-                }
-            }
-        }
-
-        //megnézi hogy az adott lépés az AI első lépése vagy sem
-        private bool IsFirstAIMove(Square[,] board) 
-        {
-            int darkCounter = 0;
-            int lightCounter = 0;
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = 0; j < 8; j++)
+                //ha a másik játékosnak van érvényes lépése, akkor játékost váltunk, ha nincs és a jelenleginek sincs, akkor vége a játéknak, amúgy marad a jelenlegi játékos
+                if (CalculateValidSquares(_lightPlayerTurn ^ true).Count != 0)
                 {
-                    if (board[i, j] == Square.BLACK)
+                    _lightPlayerTurn ^= true;
+                    SetNextPlayerNameLabel();
+                    if (_lightPlayerTurn == false && IsSinglePlayer() == true)
                     {
-                        darkCounter += 1;
+                        GameWithAI();
                     }
-                    else if (board[i, j] == Square.WHITE)
-                    {
-                        lightCounter += 1;
-                    }
-                    
                 }
+                else if (CalculateValidSquares(_lightPlayerTurn).Count == 0)
+                {
+                    GameOver();
+                }
+
             }
 
             if (darkCounter > 2 || lightCounter > 2)
@@ -723,18 +700,20 @@ namespace Fonákolós.Views
         }
         private void SavingScore()
         {
+
             string LightPlayer = LightPlayerNameLabel.Content.ToString();
             string DarkPlayer = DarkPlayerNameLabel.Content.ToString();
             string WinningPlayer;
 
+            var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+            String filename = Path.Combine(systemPath, "score.json");
 
-            string path = Directory.GetParent(System.Reflection.Assembly.GetExecutingAssembly().Location).FullName;
-            String filename = Path.Combine(path, ".//score.json"); 
+
 
             if (!File.Exists(filename))
             {
-                FileStream stream = File.Create(filename);
-                stream.Close();
+                File.Create(filename);
+                
             }
 
             if (LightPlayerScore > DarkPlayerScore)
