@@ -9,6 +9,7 @@ namespace Fonákolós.Models
     public enum GameMode
     {
         SOLO,
-        MULTIPLAYER
+        MULTIPLAYER,
+        SCOREBOARD
     }
 }

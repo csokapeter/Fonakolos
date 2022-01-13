@@ -34,18 +34,6 @@ namespace Fonákolós
             base.OnStartup(e);
         }
     }
-    public class Startup
-    {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-        public IConfiguration Configuration { get; }
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddDbContext<ScoreboardContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("ServerDb")));
-        }
-    }
+  
 }
 

@@ -46,6 +46,10 @@ namespace Fonákolós.ViewModels
             DarkPlayerName = darkPlayerName;
             GameMode = gameMode;
         }
+        public GameViewModel(GameMode gameMode)
+        {
+            GameMode = gameMode;
+        }
 
     }
 }
