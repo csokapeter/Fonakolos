@@ -37,14 +37,13 @@ namespace Fonákolós.ViewModels
 
         public ICommand NavigateToGameCommand { get; }
         public ICommand NavigateToGameCommandComputer { get; }
-        public ICommand NavigateToGameCommandScoreboard { get; }
+        public ICommand NavigateToScoreboard { get; }
 
         public TitleScreenViewModel(NavigationStore navigationStore)
         {
             NavigateToGameCommand = new NavigateToGameCommand(this, navigationStore, GameMode.MULTIPLAYER);
             NavigateToGameCommandComputer = new NavigateToGameCommand(this, navigationStore, GameMode.SOLO);
-            NavigateToGameCommandScoreboard = new NavigateToGameCommand(this, navigationStore, GameMode.SCOREBOARD);
-
+            NavigateToScoreboard = new NavigateToScoreboard(navigationStore);
         }
     }
 }
