@@ -14,6 +14,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Threading;
+using System.Xml;
+using System.Text.Json;
+using System.IO;
 
 namespace Fonákolós.Views
 {
@@ -540,20 +543,39 @@ namespace Fonákolós.Views
         {
             _timer.Tick -= OnTick;
             _timer.Stop();
+            string LightPlayer = LightPlayerNameLabel.Content.ToString();
+            string DarkPlayer = DarkPlayerNameLabel.Content.ToString();
+            string WinningPlayer;
+
 
             if (LightPlayerScore > DarkPlayerScore)
             {
                 MessageBox.Show($"{LightPlayerNameLabel.Content.ToString()} nyert!");
+                WinningPlayer = LightPlayerNameLabel.Content.ToString();
             }
             else if (LightPlayerScore < DarkPlayerScore)
             {
                 MessageBox.Show($"{DarkPlayerNameLabel.Content.ToString()} nyert!");
+                WinningPlayer = DarkPlayerNameLabel.Content.ToString();
             }
             else
             {
                 MessageBox.Show("A játék döntetlen!");
+                WinningPlayer = "Döntetlen";
             }
-            
+
+            List<Scoreboard> _scoreboard = new List<Scoreboard>();
+            _scoreboard.Add(new Scoreboard()
+            {
+                LightPlayerName = $"{LightPlayerNameLabel.Content.ToString()}",
+                LightPlayerScore = LightPlayerScore,
+                DarkPlayerName = $"{LightPlayerNameLabel.Content.ToString()}",
+                DarkPlayerScore = DarkPlayerScore,
+                Winner = WinningPlayer,
+                GameTime = SecondsFromStart
+            });
+            string json = JsonSerializer.Serialize(_scoreboard);
+            File.WriteAllText(@"..\score.json", json);
         }
     }
 }

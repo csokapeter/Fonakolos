@@ -17,4 +17,6 @@
     <PackageReference Include="SQLExpress" Version="1.4.1" />
   </ItemGroup>
 
+  <ProjectExtensions><VisualStudio><UserProperties score_1json__JsonSchema="[" /></VisualStudio></ProjectExtensions>
+
 </Project>
