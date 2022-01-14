@@ -196,7 +196,7 @@ namespace Fonákolós.Views
                 }
             }
 
-            if (darkCounter > 2 || lightCounter > 2)
+            if (darkCounter <= 2)
             {
                 return true;
             }
@@ -206,8 +206,8 @@ namespace Fonákolós.Views
             }
         }
 
-            //gombokra kattintás kezelése
-            private void Button_Click(object sender, RoutedEventArgs e)
+        //gombokra kattintás kezelése
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
             var button = (Button)sender;
             var validSquares = CalculateValidSquares(_lightPlayerTurn);

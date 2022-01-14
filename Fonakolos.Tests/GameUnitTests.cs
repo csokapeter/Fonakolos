@@ -1,4 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Fonakolos.Views;
+using Fonakolos.Models;
 
 namespace Fonakolos.Tests
 {
