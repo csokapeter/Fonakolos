@@ -38,6 +38,7 @@ namespace Fonákolós.ViewModels
 
             var x = JsonConvert.DeserializeObject<List<Scoreboard>>(json.ToString());
 
+
             if (x != null)
             {
                 foreach (var result in x) 
