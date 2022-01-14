@@ -28,38 +28,7 @@ namespace Fonákolós.Views
         public ScoreBoardView()
         {
             InitializeComponent();
-            LoadData();
-
-           /*var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-            String filename = Path.Combine(systemPath, "score.json");
-
-            try
-
-            {
-
-                Scoreboard scoreboard = JsonConvert.DeserializeObject<Scoreboard>(@"{""Name"" : ""Apple"", ""ExpiryDate"" : ""May"", ""Price"" : 3.99}");
-
-                DataContext = scoreboard;
-
-            }
-
-            catch (Exception ex)
-
-            {
-
-
-                MessageBox.Show(ex.Message);
-
-            }*/
-        }
-        public void LoadData()
-        {
-            var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-            String filename = Path.Combine(systemPath, "score.json");
-
-            string str = File.ReadAllText(filename);
-           /* RootObject deserializedObject = JsonConvert.DeserializeObject<RootObject>(str);
-            dgr.ItemsSource = deserializedObject.response.Scoreboard;*/
+          
         }
     }
 }
