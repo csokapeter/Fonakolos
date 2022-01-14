@@ -32,7 +32,7 @@ namespace Fonákolós.ViewModels
 
             Results = new ObservableCollection<string>();
             var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-            String filename = Path.Combine(systemPath, "score.json");
+            string filename = Path.Combine(systemPath, "score.json");
 
             string json = System.IO.File.ReadAllText(filename);
 

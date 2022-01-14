@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Threading;
 using System.Text.Json;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace Fonákolós.Views
 {
@@ -672,9 +673,16 @@ namespace Fonákolós.Views
             string WinningPlayer;
 
             var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-            String filename = Path.Combine(systemPath, "score.json");
+            string filename = Path.Combine(systemPath, "score.json");
 
-          
+            string json = System.IO.File.ReadAllText(filename);
+
+            var data = JsonConvert.DeserializeObject<List<Scoreboard>>(json.ToString());
+
+            if (data == null)
+            {
+                data = new List<Scoreboard>();
+            }
 
             if (LightPlayerScore > DarkPlayerScore)
             {
@@ -689,8 +697,7 @@ namespace Fonákolós.Views
                 WinningPlayer = "Döntetlen";
             }
 
-            List<Scoreboard> _data = new List<Scoreboard>();
-            _data.Add(new Scoreboard()
+            data.Add(new Scoreboard()
             {
                 LightPlayerName = LightPlayer,
                 LightScore = LightPlayerScore,
@@ -701,7 +708,7 @@ namespace Fonákolós.Views
             });
 
 
-            string json = JsonSerializer.Serialize(_data);
+            json = System.Text.Json.JsonSerializer.Serialize(data);
             File.WriteAllText(filename, json);
         }
     }
