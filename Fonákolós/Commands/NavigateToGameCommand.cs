@@ -27,7 +27,7 @@ namespace Fonákolós.Commands
         {
             if (_gameMode == GameMode.MULTIPLAYER && !IsNullOrWhiteSpaceOrSpecialChar(_viewModel.LightPlayerName) && !IsNullOrWhiteSpaceOrSpecialChar(_viewModel.DarkPlayerName))
             {
-                _navigationStore.CurrentViewModel = new GameViewModel(_viewModel.LightPlayerName, _viewModel.DarkPlayerName, _gameMode);
+                _navigationStore.CurrentViewModel = new GameViewModel(_navigationStore, _viewModel.LightPlayerName, _viewModel.DarkPlayerName, _gameMode);
             }
             else if (_gameMode == GameMode.MULTIPLAYER)
             {
@@ -35,7 +35,7 @@ namespace Fonákolós.Commands
             }
             else if (_gameMode == GameMode.SOLO && !IsNullOrWhiteSpaceOrSpecialChar(_viewModel.LightPlayerName))
             {
-                _navigationStore.CurrentViewModel = new GameViewModel(_viewModel.LightPlayerName, _gameMode);
+                _navigationStore.CurrentViewModel = new GameViewModel(_navigationStore, _viewModel.LightPlayerName, _gameMode);
             }
             else
             {

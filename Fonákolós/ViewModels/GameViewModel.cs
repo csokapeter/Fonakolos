@@ -1,4 +1,6 @@
-﻿using Fonákolós.Models;
+﻿using Fonákolós.Commands;
+using Fonákolós.Models;
+using Fonákolós.Stores;
 using Fonákolós.Views;
 using System;
 using System.Collections.Generic;
@@ -33,15 +35,23 @@ namespace Fonákolós.ViewModels
             set { _gameMode = value; }
         }
 
-        public GameViewModel(string lightPlayerName, GameMode gameMode)
+        public ICommand NavigateToTitleScreenCommand { get; }
+
+        public ICommand NavigateToScoreBoard { get; }
+
+        public GameViewModel(NavigationStore navigationStore, string lightPlayerName, GameMode gameMode)
         {
+            NavigateToScoreBoard = new NavigateToScoreboard(navigationStore);
+            NavigateToTitleScreenCommand = new NavigateToTitleScreenCommand(navigationStore);
             LightPlayerName = lightPlayerName;
             DarkPlayerName = "COMPUTER";
             GameMode = gameMode;
         }
 
-        public GameViewModel(string lightPlayerName, string darkPlayerName, GameMode gameMode)
+        public GameViewModel(NavigationStore navigationStore, string lightPlayerName, string darkPlayerName, GameMode gameMode)
         {
+            NavigateToScoreBoard = new NavigateToScoreboard(navigationStore);
+            NavigateToTitleScreenCommand = new NavigateToTitleScreenCommand(navigationStore);
             LightPlayerName = lightPlayerName;
             DarkPlayerName = darkPlayerName;
             GameMode = gameMode;

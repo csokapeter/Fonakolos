@@ -710,6 +710,12 @@ namespace Fonákolós.Views
 
             json = System.Text.Json.JsonSerializer.Serialize(data);
             File.WriteAllText(filename, json);
+
+            NavigateToTitleScreenButton.Opacity = 1;
+            NavigateToTitleScreenButton.IsEnabled = true;
+
+            NavigateToScoreBoardButton.Opacity = 1;
+            NavigateToScoreBoardButton.IsEnabled = true;
         }
     }
 }

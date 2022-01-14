@@ -39,10 +39,25 @@
         </StackPanel>
 
         <Grid Background="BurlyWood" Grid.Row="1">
-            <StackPanel Orientation="Horizontal">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            
+            <StackPanel Grid.Row="0" Orientation="Horizontal">
                 <Label Content="A következő játékos:" FontSize="30"/>
                 <Label Name="NextPlayerNameLabel" Content="" FontSize="30" />
             </StackPanel>
+            
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Button Command="{Binding NavigateToTitleScreenCommand}" Name="NavigateToTitleScreenButton" IsEnabled="False" Opacity="0" Grid.Column="0" Content="Vissza a kezdőképernyőre" FontSize="25"/>
+                <Button Command="{Binding NavigateToScoreBoard}" Name="NavigateToScoreBoardButton" IsEnabled="False" Opacity="0" Grid.Column="1" Content="Eredménytábla mutatása" FontSize="25"/>
+            </Grid>
         </Grid>
         
         <Grid x:Name="Container" Grid.Row="2" Margin="8" Background="Bisque">
