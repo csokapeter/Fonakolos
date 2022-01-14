@@ -36,9 +36,16 @@ namespace Fonákolós.ViewModels
 
             string json = System.IO.File.ReadAllText(filename);
 
-            var x = JsonConvert.DeserializeObject<List<Scoreboard>>(json.ToString())[0];
+            var x = JsonConvert.DeserializeObject<List<Scoreboard>>(json.ToString());
 
-            Results.Add(x.ToString());
+            if (x != null)
+            {
+                foreach (var result in x) 
+                { 
+                    Results.Add(result.ToString());
+                }
+            }
+            
         }
 
         private void OnCurrentViewModelChanged()

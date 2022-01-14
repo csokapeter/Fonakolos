@@ -674,13 +674,7 @@ namespace Fonákolós.Views
             var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
             String filename = Path.Combine(systemPath, "score.json");
 
-
-
-            if (!File.Exists(filename))
-            {
-                File.Create(filename);
-                
-            }
+          
 
             if (LightPlayerScore > DarkPlayerScore)
             {
@@ -705,6 +699,7 @@ namespace Fonákolós.Views
                 Winner = WinningPlayer,
                 GameTime = SecondsFromStart
             });
+
 
             string json = JsonSerializer.Serialize(_data);
             File.WriteAllText(filename, json);

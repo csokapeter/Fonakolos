@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Microsoft.Extensions.Configuration;
 using Fonákolós.Models;
+using System.IO;
 
 namespace Fonákolós
 {
@@ -30,6 +31,17 @@ namespace Fonákolós
                 DataContext = new MainViewModel(navigationStore)
             };
             MainWindow.Show();
+
+            var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+            String filename = Path.Combine(systemPath, "score.json");
+
+
+
+            if (!File.Exists(filename))
+            {
+                File.Create(filename);
+
+            }
 
             base.OnStartup(e);
         }
