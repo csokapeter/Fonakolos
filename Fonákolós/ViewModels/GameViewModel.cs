@@ -17,22 +17,31 @@ namespace Fonákolós.ViewModels
         private string _darkPlayerName;
         private GameMode _gameMode;
 
-        public string LightPlayerName 
-        { 
-            get { return _lightPlayerName; } 
-            set { _lightPlayerName = value; }
+        public string LightPlayerName
+        {
+            get => _lightPlayerName;
+            set
+            {
+                _lightPlayerName = value;
+            }
         }
 
         public string DarkPlayerName
         {
-            get { return _darkPlayerName; }
-            set { _darkPlayerName = value; }
+            get => _darkPlayerName;
+            set
+            {
+                _darkPlayerName = value;
+            }
         }
 
         public GameMode GameMode
         {
-            get { return _gameMode; }
-            set { _gameMode = value; }
+            get => _gameMode;
+            set 
+            { 
+                _gameMode = value; 
+            }
         }
 
         public ICommand NavigateToTitleScreenCommand { get; }
@@ -56,6 +65,5 @@ namespace Fonákolós.ViewModels
             DarkPlayerName = darkPlayerName;
             GameMode = gameMode;
         }
-
     }
 }

@@ -65,7 +65,7 @@ namespace Fonákolós.Views
             _timer.Tick += OnTick;
             _timer.Start();
 
-            if (IsSinglePlayer() == true)
+            if (IsSinglePlayer())
             {
                 GameWithAI();
             }
@@ -83,7 +83,7 @@ namespace Fonákolós.Views
 
         public int LightPlayerScore
         {
-            get { return _lightPlayerScore; }
+            get => _lightPlayerScore;
             set
             {
                 _lightPlayerScore = value;
@@ -93,7 +93,7 @@ namespace Fonákolós.Views
 
         public int DarkPlayerScore
         {
-            get { return _darkPlayerScore; }
+            get => _darkPlayerScore;
             set
             {
                 _darkPlayerScore = value;
@@ -101,9 +101,9 @@ namespace Fonákolós.Views
             }
         }
 
-        public int SecondsFromStart 
-        { 
-            get { return _secondsFromStart; } 
+        public int SecondsFromStart
+        {
+            get => _secondsFromStart;
             set
             {
                 _secondsFromStart = value;
@@ -117,16 +117,9 @@ namespace Fonákolós.Views
         }
 
         //megnézi hogy gép ellen játszunk-e
-        private bool IsSinglePlayer() 
+        private bool IsSinglePlayer()
         {
-            if (_gameMode == GameMode.SOLO)
-            {
-                return true;
-            }
-            else 
-            { 
-                return false;
-            }
+            return _gameMode == GameMode.SOLO;
         }
 
         //AI elleni játék
@@ -157,7 +150,6 @@ namespace Fonákolós.Views
 
                     HandleMove(bestMove[0], bestMove[1]);
                 }
-
                 //random lép
                 else
                 {
@@ -172,7 +164,6 @@ namespace Fonákolós.Views
                     ChangeSquare(row, col, _lightPlayerTurn);
 
                     HandleMove(row, col);
-
                 }
             }
         }
@@ -201,8 +192,8 @@ namespace Fonákolós.Views
             {
                 return true;
             }
-            else 
-            { 
+            else
+            {
                 return false;  
             }
         }
@@ -650,8 +641,6 @@ namespace Fonákolós.Views
             _timer.Tick -= OnTick;
             _timer.Stop();
 
-
-
             if (LightPlayerScore > DarkPlayerScore)
             {
                 MessageBox.Show($"{LightPlayerNameLabel.Content.ToString()} nyert!");
@@ -665,6 +654,7 @@ namespace Fonákolós.Views
                 MessageBox.Show("A játék döntetlen!");
             }
         }
+
         private void SavingScore()
         {
 
@@ -672,13 +662,12 @@ namespace Fonákolós.Views
             string DarkPlayer = DarkPlayerNameLabel.Content.ToString();
             string WinningPlayer;
 
-            var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+            var systemPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
             string filename = Path.Combine(systemPath, "score.json");
 
-            string json = System.IO.File.ReadAllText(filename);
+            string json = File.ReadAllText(filename);
 
             var data = JsonConvert.DeserializeObject<List<Scoreboard>>(json.ToString());
-
             if (data == null)
             {
                 data = new List<Scoreboard>();
@@ -706,7 +695,6 @@ namespace Fonákolós.Views
                 Winner = WinningPlayer,
                 GameTime = SecondsFromStart
             });
-
 
             json = System.Text.Json.JsonSerializer.Serialize(data);
             File.WriteAllText(filename, json);

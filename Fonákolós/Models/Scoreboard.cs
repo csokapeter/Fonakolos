@@ -10,17 +10,21 @@ namespace Fonákolós.Models
 
     public class Scoreboard
     {
-        /*public int Id { get; set; }*/
-        public String LightPlayerName { get; set; }
+        public string LightPlayerName { get; set; }
+
         public int LightScore { get; set; }
-        public String DarkPlayerName { get; set; }
+
+        public string DarkPlayerName { get; set; }
+
         public int DarkScore { get; set; }
-        public String Winner { get; set; }
+
+        public string Winner { get; set; }
+
         public int GameTime { get; set; }
+
         public override string ToString()
         {
             return $"{LightPlayerName},{LightScore}, {DarkPlayerName}, {DarkScore}, {Winner}, {GameTime}";
-            
         }
     }
 }

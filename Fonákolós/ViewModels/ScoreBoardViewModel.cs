@@ -22,8 +22,9 @@ namespace Fonákolós.ViewModels
         public ObservableCollection<string> Results { get; set; }
 
         public ICommand NavigateToTitleScreenCommand { get; }
+
         public ScoreBoardViewModel(NavigationStore navigationStore)
-        {            
+        {
             _navigationStore = navigationStore;
 
             _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
@@ -31,22 +32,20 @@ namespace Fonákolós.ViewModels
             NavigateToTitleScreenCommand = new NavigateToTitleScreenCommand(navigationStore);
 
             Results = new ObservableCollection<string>();
-            var systemPath = System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+            var systemPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
             string filename = Path.Combine(systemPath, "score.json");
 
-            string json = System.IO.File.ReadAllText(filename);
+            string json = File.ReadAllText(filename);
 
-            var x = JsonConvert.DeserializeObject<List<Scoreboard>>(json.ToString());
+            var results = JsonConvert.DeserializeObject<List<Scoreboard>>(json.ToString());
 
-
-            if (x != null)
+            if (results != null)
             {
-                foreach (var result in x) 
-                { 
+                foreach (var result in results)
+                {
                     Results.Add(result.ToString());
                 }
             }
-            
         }
 
         private void OnCurrentViewModelChanged()

@@ -15,9 +15,9 @@ namespace Fonákolós.ViewModels
         private string _lightPlayerName;
         private string _darkPlayerName;
 
-        public string LightPlayerName 
+        public string LightPlayerName
         {
-            get { return _lightPlayerName; }
+            get => _lightPlayerName;
             set
             {
                 _lightPlayerName = value;
@@ -27,7 +27,7 @@ namespace Fonákolós.ViewModels
 
         public string DarkPlayerName
         {
-            get { return _darkPlayerName; }
+            get => _darkPlayerName;
             set
             {
                 _darkPlayerName = value;
