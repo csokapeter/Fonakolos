@@ -44,18 +44,9 @@ namespace Fonákolós.Views
             LightPlayerScore = 2;
             DarkPlayerScore = 2;
 
-            _random = new Random();
-            _lightPlayerTurn = Convert.ToBoolean(_random.Next(0, 2));
-            if (_lightPlayerTurn)
-            {
-                NextPlayerNameLabel.Content = "WHITE";
-                NextPlayerNameLabel.Foreground = Brushes.White;
-            }
-            else
-            {
-                NextPlayerNameLabel.Content = "BLACK";
-                NextPlayerNameLabel.Foreground = Brushes.Black;
-            }
+            _lightPlayerTurn = true;
+            NextPlayerNameLabel.Content = "WHITE";
+            NextPlayerNameLabel.Foreground = Brushes.White;
 
             SecondsFromStart = 0;
             _timer = new DispatcherTimer()
@@ -64,11 +55,6 @@ namespace Fonákolós.Views
             };
             _timer.Tick += OnTick;
             _timer.Start();
-
-            if (IsSinglePlayer())
-            {
-                GameWithAI();
-            }
         }
 
 
@@ -77,7 +63,6 @@ namespace Fonákolós.Views
         private int _lightPlayerScore;
         private int _darkPlayerScore;
         private int _secondsFromStart;
-        private GameMode _gameMode;
         private Random _random { get; set; }
         private DispatcherTimer _timer;
 
@@ -119,7 +104,14 @@ namespace Fonákolós.Views
         //megnézi hogy gép ellen játszunk-e
         private bool IsSinglePlayer()
         {
-            return _gameMode == GameMode.SOLO;
+            if (GameModeLabel.Content.ToString() == "SOLO")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         //AI elleni játék
@@ -194,13 +186,18 @@ namespace Fonákolós.Views
             }
             else
             {
-                return false;  
+                return false;
             }
         }
 
         //gombokra kattintás kezelése
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            if (IsSinglePlayer())
+            {
+                GameWithAI();
+            }
+
             var button = (Button)sender;
             var validSquares = CalculateValidSquares(_lightPlayerTurn);
             int column = Grid.GetColumn(button);
