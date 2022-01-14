@@ -154,38 +154,7 @@ namespace Fonákolós.Views
                     }
                     ChangeSquare(bestMove[0], bestMove[1], _lightPlayerTurn);
 
-                    var surroundedSquares = CalculateSurroundedSquares(bestMove[0], bestMove[1]);
-                    foreach (var t in surroundedSquares)
-                    {
-                        ChangeSquare(t.Item1, t.Item2, _lightPlayerTurn);
-                    }
-
-                    if (_lightPlayerTurn)
-                    {
-                        LightPlayerScore += surroundedSquares.Count + 1;
-                        DarkPlayerScore -= surroundedSquares.Count;
-                    }
-                    else
-                    {
-                        LightPlayerScore -= surroundedSquares.Count;
-                        DarkPlayerScore += surroundedSquares.Count + 1;
-                    }
-
-                    //ha a másik játékosnak van érvényes lépése, akkor játékost váltunk, ha nincs és a jelenleginek sincs, akkor vége a játéknak, amúgy marad a jelenlegi játékos
-                    if (CalculateValidSquares(_lightPlayerTurn ^ true).Count != 0)
-                    {
-                        _lightPlayerTurn ^= true;
-                        SetNextPlayerNameLabel();
-                        if (_lightPlayerTurn == false && IsSinglePlayer() == true)
-                        {
-                            GameWithAI();
-                        }
-                    }
-                    else if (CalculateValidSquares(_lightPlayerTurn).Count == 0)
-                    {
-                        GameOver();
-                        SavingScore();
-                    }
+                    HandleMove(bestMove[0], bestMove[1]);
                 }
 
                 //random lép
@@ -201,37 +170,7 @@ namespace Fonákolós.Views
 
                     ChangeSquare(row, col, _lightPlayerTurn);
 
-                    var surroundedSquares = CalculateSurroundedSquares(row, col);
-                    foreach (var t in surroundedSquares)
-                    {
-                        ChangeSquare(t.Item1, t.Item2, _lightPlayerTurn);
-                    }
-
-                    if (_lightPlayerTurn)
-                    {
-                        LightPlayerScore += surroundedSquares.Count + 1;
-                        DarkPlayerScore -= surroundedSquares.Count;
-                    }
-                    else
-                    {
-                        LightPlayerScore -= surroundedSquares.Count;
-                        DarkPlayerScore += surroundedSquares.Count + 1;
-                    }
-
-                    //ha a másik játékosnak van érvényes lépése, akkor játékost váltunk, ha nincs és a jelenleginek sincs, akkor vége a játéknak, amúgy marad a jelenlegi játékos
-                    if (CalculateValidSquares(_lightPlayerTurn ^ true).Count != 0)
-                    {
-                        _lightPlayerTurn ^= true;
-                        SetNextPlayerNameLabel();
-                        if (_lightPlayerTurn == false && IsSinglePlayer() == true)
-                        {
-                            GameWithAI();
-                        }
-                    }
-                    else if (CalculateValidSquares(_lightPlayerTurn).Count == 0)
-                    {
-                        GameOver();
-                    }
+                    HandleMove(row, col);
 
                 }
             }
@@ -280,38 +219,43 @@ namespace Fonákolós.Views
             {
                 ChangeSquare(row, column, _lightPlayerTurn);
 
-                var surroundedSquares = CalculateSurroundedSquares(row, column);
-                foreach (var t in surroundedSquares)
-                {
-                    ChangeSquare(t.Item1, t.Item2, _lightPlayerTurn);
-                }
+                HandleMove(row, column);
+            }
+        }
 
-                if (_lightPlayerTurn)
-                {
-                    LightPlayerScore += surroundedSquares.Count + 1;
-                    DarkPlayerScore -= surroundedSquares.Count;
-                }
-                else
-                {
-                    LightPlayerScore -= surroundedSquares.Count;
-                    DarkPlayerScore += surroundedSquares.Count + 1;
-                }
+        private void HandleMove(int row, int column)
+        {
+            var surroundedSquares = CalculateSurroundedSquares(row, column);
+            foreach (var t in surroundedSquares)
+            {
+                ChangeSquare(t.Item1, t.Item2, _lightPlayerTurn);
+            }
 
-                //ha a másik játékosnak van érvényes lépése, akkor játékost váltunk, ha nincs és a jelenleginek sincs, akkor vége a játéknak, amúgy marad a jelenlegi játékos
-                if (CalculateValidSquares(_lightPlayerTurn ^ true).Count != 0)
+            if (_lightPlayerTurn)
+            {
+                LightPlayerScore += surroundedSquares.Count + 1;
+                DarkPlayerScore -= surroundedSquares.Count;
+            }
+            else
+            {
+                LightPlayerScore -= surroundedSquares.Count;
+                DarkPlayerScore += surroundedSquares.Count + 1;
+            }
+
+            //ha a másik játékosnak van érvényes lépése, akkor játékost váltunk, ha nincs és a jelenleginek sincs, akkor vége a játéknak, amúgy marad a jelenlegi játékos
+            if (CalculateValidSquares(_lightPlayerTurn ^ true).Count != 0)
+            {
+                _lightPlayerTurn ^= true;
+                SetNextPlayerNameLabel();
+                if (_lightPlayerTurn == false && IsSinglePlayer() == true)
                 {
-                    _lightPlayerTurn ^= true;
-                    SetNextPlayerNameLabel();
-                    if (_lightPlayerTurn == false && IsSinglePlayer() == true)
-                    {
-                        GameWithAI();
-                    }
+                    GameWithAI();
                 }
-                else if (CalculateValidSquares(_lightPlayerTurn).Count == 0)
-                {
-                    GameOver();
-                    SavingScore();
-                }
+            }
+            else if (CalculateValidSquares(_lightPlayerTurn).Count == 0)
+            {
+                GameOver();
+                SavingScore();
             }
         }
 
